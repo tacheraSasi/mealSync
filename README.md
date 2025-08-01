@@ -1,64 +1,82 @@
-# 🍽️ SmartMeal by IPF Software
+# iPF SmartMeal 🍽️
 
-## 🏷️ Solution Name
-**iPF Meal Sync: Weekly Employee Food Selection System**
-*(Developed by IPF Software)*
+**Weekly Employee Food Selection System**
 
 ---
 
-## 📝 Description
-SmartMeal is a **full-stack web application** by **IPF Software** that automates weekly meal planning in workplaces. It enables employees to select their meals in advance, sends **email and SMS reminders**, and provides administrators with tools to manage menus, enforce deadlines, and generate accurate catering reports.
+## Description
 
-By replacing manual spreadsheets and emails, SmartMeal reduces errors, confusion, and food wastage while improving workplace efficiency.
+SmartMeal by **IPF Software** automates weekly meal planning in workplaces. Employees select meals in advance, receive reminders via email and SMS, and admins manage menus and generate catering reports.
 
----
-
-## ❓ Problem It Solves
-Many organizations struggle with **manual and inefficient meal tracking**, leading to:
-- Meal orders handled via **emails/spreadsheets**, causing delays and mistakes.
-- Employees forgetting to submit choices without reminders.
-- Caterers receiving **inaccurate counts**, resulting in waste.
-- Admins spending hours consolidating requests.
-
-✅ **SmartMeal solves this by:**
-- Automating meal selection submissions.
-- Sending **email & SMS notifications** for reminders and confirmations.
-- Enforcing weekly cutoff times for submissions.
-- Providing admins with **accurate, exportable meal reports**.
+This solution eliminates manual spreadsheets, reduces food wastage, and streamlines meal ordering.
 
 ---
 
-## 🚀 Key Features
-- 🔒 **Role-Based Authentication (JWT):** Admin & Employee dashboards.
-- 🗂️ **Menu Management:** Admins create and publish weekly menus.
-- 🍽️ **Employee Meal Selection:** Daily meal choices (lunch/dinner) per week.
-- ⏳ **Deadline Locking:** Automatic closure of selections after cutoff.
-- 📧 **Email Notifications:**
-  - Menu published alerts.
-  - Meal confirmation emails.
-  - Deadline reminders.
-- 📱 **SMS Notifications:**
-  - Submission reminders via SMS.
-  - Confirmation SMS for successful meal selections.
-- 📊 **Catering Reports:** Admin exports meal counts for caterers.
-- 🌐 **Responsive UI:** Mobile & desktop friendly.
+## Problem
+
+- Manual meal tracking via emails/spreadsheets causes delays and mistakes.
+- Employees forget to submit meal choices without reminders.
+- Caterers receive inaccurate counts, leading to waste.
+- Admins spend hours consolidating orders.
 
 ---
 
-## 🔄 System Workflow Diagram
-```mermaid
-flowchart TD
-    A[Admin Login] --> B[Create Weekly Menu]
-    B --> C[Store Menu in DB]
-    C --> D[Send Email & SMS: Menu Published]
-    D --> E[Employee Login]
-    E --> F[View Weekly Menu]
-    F --> G[Select Meals Mon-Fri]
-    G --> H[Submit Selections]
-    H --> I[Send Email & SMS: Confirmation]
-    I --> J[Selections Saved in DB]
-    J --> K[Check Deadline]
-    K -- Deadline Reached --> L[Lock Selection Access]
-    L --> M[Admin Generates Report]
-    M --> N[Send Email: Report Ready]
-    N --> O[Catering Team Prepares Meals]
+## Features
+
+- 🔒 Role-Based Authentication with JWT (Admin & Employee)
+- 🗂️ Menu Management by Admins
+- 🍽️ Employee Meal Selection per day/week
+- ⏳ Deadline Locking for submissions
+- 📧 Email Notifications (menu alerts, confirmations, reminders)
+- 📱 SMS Notifications (submission reminders, confirmations)
+- 📊 Catering Reports export
+- 🌐 Responsive UI with React & TailwindCSS
+
+---
+
+## Tech Stack
+
+- Frontend: React.js, TailwindCSS
+- Backend: Express.js (Node.js)
+- Database: PostgreSQL
+- Authentication: JWT
+- Notifications: Email & SMS APIs (e.g., SendGrid, Twilio)
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js >=16
+- PostgreSQL running locally or cloud
+- pnpm or npm package manager
+
+### Setup
+
+1. Clone repo:
+   ```bash
+   git clone https://github.com/yourusername/ipf-smartmeal.git
+   cd ipf-smartmeal
+2. Instal dependencies
+   ```bash
+   cd frontend
+   pnpm install
+
+   cd server
+   pnpm install
+3. For backend to work use .env.example to create your .env file
+4.start your project
+   ```bash
+   cd server
+   docker compose up
+   pnpm dev
+
+   cd frontend
+   pnpm dev
+5. Server & frontend should be running on
+   ```bash
+   https://localhost:5000
+   https://localhost:5173
+   ```
+   respectively
