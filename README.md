@@ -79,34 +79,7 @@ cd mealsync
 npm install
 ```
 
-### **Environment Variables**
 
-Create a `.env` file:
-
-```env
-DATABASE_URL=postgres://user:pass@localhost:5432/mealsync
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-SLACK_WEBHOOK_URL=https://hooks.slack.com/services/xxx/yyy/zzz
-SHEET_ID=your-google-sheet-id
-```
-
-### **Run**
-
-```bash
-npm run dev
-```
-
-Visit `http://localhost:3000`.
-
----
-
-## **Demo**
-
-* **Live:** [https://mealsync.vercel.app](https://mealsync.vercel.app)
-* **GitHub:** [https://github.com/your-org/mealsync](https://github.com/your-org/mealsync)
-
----
 
 ## **Roadmap**
 
