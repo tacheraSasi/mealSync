@@ -1,14 +1,13 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import LunchChoiceTable from "./LunchChoiceTable";
 import MenuTable from "./MenuTable";
 import NavBar from "./NavBar";
 import UserTable from "./UserTable";
 
 const HomePage = () => {
-  
   const [active, setActive] = useState({
     menu: true,
-    user: false,
+    user: true,
     choice: false,
   });
   return (
