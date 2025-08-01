@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2021", // stable modern JS features for Node 16+
+    "module": "commonjs", // Node.js default module system (or "nodenext" if you want esm)
+    "rootDir": "./src", // your source folder
+    "outDir": "./dist", // compiled output folder
+    "strict": true, // strict mode
+    "esModuleInterop": true, // allow import/export compatibility with commonjs
+    "skipLibCheck": true, // skip checking libraries for faster build
+    "forceConsistentCasingInFileNames": true,
+
+    "experimentalDecorators": true, // needed for decorators support
+    "emitDecoratorMetadata": true, // needed for reflect-metadata (class-validator)
+
+    "sourceMap": true, // useful for debugging
+    "noImplicitReturns": true, // (optional) check all code paths return a value
+    "noUnusedLocals": true, // (optional) warns for unused locals
+    "noUnusedParameters": true // (optional) warns for unused params
+  },
+  "include": ["src/**/*"]
+}
