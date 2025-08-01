@@ -1,4 +1,4 @@
-# ![IPF Software Logo](https://ipfsoftware.com/assets/images/logo.svg)SmartMeal 🍽️
+# iPF SmartMeal 🍽️
 
 **Weekly Employee Food Selection System**
 
