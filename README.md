@@ -2,15 +2,11 @@
 
 **Weekly Employee Food Selection System**
 
----
-
 ## Description
 
 SmartMeal by **IPF Software** automates weekly meal planning in workplaces. Employees select meals in advance, receive reminders via email and SMS, and admins manage menus and generate catering reports.
 
 This solution eliminates manual spreadsheets, reduces food wastage, and streamlines meal ordering.
-
----
 
 ## Problem
 
@@ -18,8 +14,6 @@ This solution eliminates manual spreadsheets, reduces food wastage, and streamli
 - Employees forget to submit meal choices without reminders.
 - Caterers receive inaccurate counts, leading to waste.
 - Admins spend hours consolidating orders.
-
----
 
 ## Features
 
@@ -32,8 +26,6 @@ This solution eliminates manual spreadsheets, reduces food wastage, and streamli
 - 📊 Catering Reports export
 - 🌐 Responsive UI with React & TailwindCSS
 
----
-
 ## Tech Stack
 
 - Frontend: React.js, TailwindCSS
@@ -41,8 +33,6 @@ This solution eliminates manual spreadsheets, reduces food wastage, and streamli
 - Database: PostgreSQL
 - Authentication: JWT
 - Notifications: Email & SMS APIs (e.g., SendGrid, Twilio)
-
----
 
 ## Getting Started
 
@@ -58,6 +48,7 @@ This solution eliminates manual spreadsheets, reduces food wastage, and streamli
    ```bash
    git clone https://github.com/yourusername/ipf-smartmeal.git
    cd ipf-smartmeal
+
 2. Instal dependencies
    ```bash
    cd frontend
@@ -65,8 +56,8 @@ This solution eliminates manual spreadsheets, reduces food wastage, and streamli
 
    cd server
    pnpm install
-3. For backend to work use .env.example to create your .env file
-4.start your project
+
+3.start your project
    ```bash
    cd server
    docker compose up
@@ -74,7 +65,8 @@ This solution eliminates manual spreadsheets, reduces food wastage, and streamli
 
    cd frontend
    pnpm dev
-5. Server & frontend should be running on
+
+4.Server & frontend should be running on
    ```bash
    https://localhost:5000
    https://localhost:5173
