@@ -3,8 +3,15 @@ import { Repository } from "typeorm";
 import { AppDataSource } from "../utils/data-source";
 import { User } from "../entities/User";
 
-const userRepository = (): Repository<User> =>
-  AppDataSource.getRepository(User);
+// Cache repository instance for better performance
+let cachedUserRepository: Repository<User> | null = null;
+
+const userRepository = (): Repository<User> => {
+  if (!cachedUserRepository) {
+    cachedUserRepository = AppDataSource.getRepository(User);
+  }
+  return cachedUserRepository;
+};
 
 interface UserResult {
   id: number;
@@ -19,14 +26,30 @@ interface ServiceResponse<T> {
   error?: string;
 }
 
+// Helper function for consistent error handling
+const handleError = (error: unknown, fallbackMessage: string): string => {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return fallbackMessage;
+};
+
+// Helper function to sanitize user input
+const sanitizeInput = (input: string): string => {
+  return input.trim().toLowerCase();
+};
+
 async function allUsers(): Promise<ServiceResponse<UserResult[]>> {
   try {
     const users = await userRepository().find({
       select: ["id", "username", "email", "role"],
     });
     return { status: "success", result: users };
-  } catch (error: any) {
-    return { status: "error", error: error.message };
+  } catch (error: unknown) {
+    return { 
+      status: "error", 
+      error: handleError(error, "Failed to fetch users") 
+    };
   }
 }
 
@@ -38,8 +61,11 @@ async function getUser(id: number): Promise<ServiceResponse<UserResult>> {
     });
     if (!user) return { status: "error", error: "User not found" };
     return { status: "success", result: user };
-  } catch (error: any) {
-    return { status: "error", error: error.message };
+  } catch (error: unknown) {
+    return { 
+      status: "error", 
+      error: handleError(error, "Failed to fetch user") 
+    };
   }
 }
 
@@ -53,11 +79,23 @@ async function loginUser({
   password,
 }: LoginInput): Promise<ServiceResponse<UserResult>> {
   try {
-    const foundUser = await userRepository().findOne({ where: { email } });
-    if (!foundUser) return { status: "error", error: "Please register first" };
-
-    const valid = await bcrypt.compare(password, foundUser.password);
-    if (!valid) return { status: "error", error: "Invalid password" };
+    // Sanitize email input
+    const normalizedEmail = sanitizeInput(email);
+    
+    // Only select necessary fields + password for verification
+    const foundUser = await userRepository().findOne({ 
+      where: { email: normalizedEmail },
+      select: ["id", "username", "email", "role", "password"]
+    });
+    
+    // Perform password check even if user not found to prevent timing attacks
+    const dummyHash = "$2a$10$dummyhashtopreventtimingattacks";
+    const userPassword = foundUser?.password || dummyHash;
+    const valid = await bcrypt.compare(password, userPassword);
+    
+    if (!foundUser || !valid) {
+      return { status: "error", error: "Invalid email or password" };
+    }
 
     const data: UserResult = {
       id: foundUser.id,
@@ -66,8 +104,11 @@ async function loginUser({
       role: foundUser.role,
     };
     return { status: "success", result: data };
-  } catch (error: any) {
-    return { status: "error", error: error.message };
+  } catch (error: unknown) {
+    return { 
+      status: "error", 
+      error: handleError(error, "Login failed") 
+    };
   }
 }
 
@@ -83,8 +124,12 @@ async function createUser({
   password,
 }: CreateUserInput): Promise<ServiceResponse<UserResult>> {
   try {
+    // Sanitize inputs
+    const normalizedEmail = sanitizeInput(email);
+    const trimmedUsername = username.trim();
+    
     const existingUser = await userRepository().findOne({
-      where: [{ username }, { email }],
+      where: [{ username: trimmedUsername }, { email: normalizedEmail }],
     });
 
     if (existingUser)
@@ -95,8 +140,8 @@ async function createUser({
 
     const passwordHash = await bcrypt.hash(password, 10);
     const newUser = userRepository().create({
-      username,
-      email,
+      username: trimmedUsername,
+      email: normalizedEmail,
       password: passwordHash,
     });
 
@@ -111,8 +156,11 @@ async function createUser({
         role: newUser.role,
       },
     };
-  } catch (error: any) {
-    return { status: "creation failed", error: error.message };
+  } catch (error: unknown) {
+    return { 
+      status: "creation failed", 
+      error: handleError(error, "User creation failed") 
+    };
   }
 }
 
