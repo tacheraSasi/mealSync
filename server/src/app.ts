@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
 import cors from "cors";
 import userRouter from "./routes/user/user.routers";
 import menuRouter from "./routes/menu/menu.routers";
@@ -16,7 +16,7 @@ app.use("/menu", menuRouter);
 app.use("/lunchChoice", lunchChoiceRouter);
 
 // Root route
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (res: Response) => {
   res.send("office lunch menu management server");
 });
 

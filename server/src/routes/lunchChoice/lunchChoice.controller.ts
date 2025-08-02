@@ -5,10 +5,7 @@ import {
   deleteLunchChoice,
 } from "../../services/lunchChoice.service";
 
-export async function getAllLunchChoice(
-  req: Request,
-  res: Response,
-): Promise<Response> {
+export async function getAllLunchChoice(res: Response): Promise<Response> {
   try {
     const result = await allLunchChoice();
     return res.status(200).json(result);

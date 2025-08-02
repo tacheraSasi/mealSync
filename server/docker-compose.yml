@@ -1,14 +1,13 @@
-version: "3.8"
 services:
   ipf_meals_db:
     image: postgres:latest
-    container_name: db
+    container_name: ipf_meals_db
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=123456
-      - POSTGRES_DB=ipf_meals_db
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     ports:
-      - "5436:5432"
+      - "${DB_PORT}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

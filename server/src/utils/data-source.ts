@@ -5,12 +5,13 @@ import { User } from "../entities/User";
 import { LunchChoice } from "../entities/LunchChoice";
 import { Menu } from "../entities/Menu";
 
-config(); // Load .env variables
+config(); // Load env first
 
+const DATABASE_URL = process.env.DATABASE_URL;
 export const AppDataSource = new DataSource({
   type: "postgres",
-  url: process.env.DATABASE_URL, // Use DATABASE_URL from .env
-  synchronize: true, // ❗Set to false in production, use migrations instead
+  url: DATABASE_URL,
+  synchronize: true,
   logging: false,
   entities: [User, LunchChoice, Menu],
 });

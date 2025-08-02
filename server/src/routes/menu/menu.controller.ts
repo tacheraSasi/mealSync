@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
 import { menuCreate, allMenu, menuUpdate } from "../../services/menu.service";
 
-export async function getAllMenu(
-  req: Request,
-  res: Response,
-): Promise<Response> {
+export async function getAllMenu(res: Response): Promise<Response> {
   try {
     const result = await allMenu();
     return res.status(200).json(result);
@@ -34,7 +31,7 @@ export async function updateMenu(
   req: Request,
   res: Response,
 ): Promise<Response> {
-  const id = req.params.id;
+  const id = Number(req.params.id);
   const menu = req.body;
 
   if (!menu.menuname || !menu.description || !menu.menudate) {
