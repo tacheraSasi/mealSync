@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, Trash2, CheckCircle2, XCircle } from "lucide-react";
+import { Download, Trash2 } from "lucide-react";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
@@ -107,6 +107,12 @@ const LunchChoiceTable = () => {
     return eventsMap;
   }, [lunchData]);
 
+  // Get choices for the selected date
+  const selectedDateChoices = useMemo(() => {
+    const dateKey = format(selectedDate, 'yyyy-MM-dd');
+    return calendarEvents.get(dateKey) || [];
+  }, [selectedDate, calendarEvents]);
+
   // Export to Excel
   const exportToExcel = () => {
     // Group by date and user
@@ -140,12 +146,6 @@ const LunchChoiceTable = () => {
     const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     saveAs(blob, `lunch-choices-${format(new Date(), 'yyyy-MM-dd')}.xlsx`);
   };
-
-  // Get choices for the selected date
-  const selectedDateChoices = useMemo(() => {
-    const dateKey = format(selectedDate, 'yyyy-MM-dd');
-    return calendarEvents.get(dateKey) || [];
-  }, [selectedDate, calendarEvents]);
 
   return (
     <div className="container py-8">
@@ -285,17 +285,15 @@ const LunchChoiceTable = () => {
               {lunchData.filter(c => c.userid === user?.id).length}
             </div>
             <div className="text-sm text-slate-500 mt-1">
+              Meals you've selected
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
 };
 
-// Get choices for the selected date
-const selectedDateChoices = useMemo(() => {
-  const dateKey = format(selectedDate, 'yyyy-MM-dd');
-  return calendarEvents.get(dateKey) || [];
-}, [selectedDate, calendarEvents]);
-
-return (
-  <div className="container py-8">
-    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Meal Selections</h1>
         <p className="text-slate-500">View and manage meal selections</p>
