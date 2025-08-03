@@ -1,21 +1,22 @@
 {
-  "name": "server",
+  "name": "mealsync-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/server.ts",
+  "description": "Node.js/Express TypeScript server for office lunch menu management",
+  "main": "dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/server.ts",
-    "start": "node src/server.ts"
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "start:ts": "ts-node src/server.ts"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["nodejs", "express", "typescript", "lunch-management", "meal-planning", "office-tools"],
+  "author": "tacheraSasi",
   "license": "ISC",
   "dependencies": {
     "@neondatabase/serverless": "^1.0.1",
     "@types/express": "^5.0.3",
     "bcryptjs": "^3.0.2",
-    "body-parser": "^1.20.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "cors": "^2.8.5",
@@ -27,12 +28,10 @@
     "typeorm": "^0.3.25"
   },
   "devDependencies": {
-    "@prisma/client": "~5.14.0",
     "@types/bcryptjs": "^3.0.0",
     "@types/cors": "^2.8.19",
     "@types/node": "^24.1.0",
     "nodemon": "^3.1.1",
-    "prisma": "~5.14.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   }
