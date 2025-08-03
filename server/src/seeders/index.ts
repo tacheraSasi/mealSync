@@ -3,6 +3,8 @@ import { AppDataSource } from "../utils/data-source";
 import { UserSeeder } from "./user.seeder";
 import { MenuSeeder } from "./menu.seeder";
 import { LunchChoiceSeeder } from "./lunchChoice.seeder";
+import { seedMealTemplates } from "./mealTemplate.seeder";
+import { seedWeeklyMealPlans } from "./weeklyMealPlan.seeder";
 
 export class DatabaseSeeder {
   private userSeeder: UserSeeder;
@@ -28,6 +30,12 @@ export class DatabaseSeeder {
       console.log("");
       
       await this.lunchChoiceSeeder.seed();
+      console.log("");
+
+      await seedMealTemplates();
+      console.log("");
+
+      await seedWeeklyMealPlans();
       console.log("");
 
       console.log("=====================================");

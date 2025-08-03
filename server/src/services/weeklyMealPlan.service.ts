@@ -69,12 +69,6 @@ const isTodayFriday = (): boolean => {
   return isFriday(new Date());
 };
 
-interface CreateWeeklyMealPlanInput {
-  userId: number;
-  mealTemplateId: number;
-  dayOfWeek: string;
-}
-
 interface WeeklyMealSelectionInput {
   userId: number;
   weeklySelections: {
