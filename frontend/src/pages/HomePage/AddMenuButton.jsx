@@ -33,7 +33,7 @@ const user = JSON.parse(sessionStorage.getItem("user"));
       createdby: user.id,
     }
     try {
-      const response = await fetch("http://localhost:5000/menu/add", {
+      const response = await fetch("http://localhost:3001/menu/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,6 +1,6 @@
 export const fetchMenuData = async (setMenuData) => {
     try {
-      const response = await fetch("http://localhost:5000/menu");
+      const response = await fetch("http://localhost:3001/menu");
       const data = await response.json();
       if (data.status === "success") {
         setMenuData(data.result);

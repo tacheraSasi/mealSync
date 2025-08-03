@@ -90,7 +90,7 @@ npm run dev
 npm start
 ```
 
-The server will be available at `http://localhost:5000`
+The server will be available at `http://localhost:3001`
 
 ## 📚 API Endpoints
 

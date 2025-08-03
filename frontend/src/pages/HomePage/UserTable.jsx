@@ -17,7 +17,7 @@ const UserTable = () => {
   }
   useEffect(() => {
     try {
-      fetch("http://localhost:5000/user")
+      fetch("http://localhost:3001/user")
         .then((res) => res.json())
         .then((data) => {
           if (data.status === "success") {

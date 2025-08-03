@@ -22,7 +22,7 @@ const LunchChoiceTable = () => {
 
   const hanldeRemove = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/lunchChoice/${id}`, {
+      const response = await fetch(`http://localhost:3001/lunchChoice/${id}`, {
         method: "DELETE",
       });
       const result = await response.json();

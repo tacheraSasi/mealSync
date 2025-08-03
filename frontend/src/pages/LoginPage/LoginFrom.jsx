@@ -22,7 +22,7 @@ const LoginFrom = () => {
   const navigate = useNavigate();
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("http://localhost:5000/user/login", {
+      const response = await fetch("http://localhost:3001/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

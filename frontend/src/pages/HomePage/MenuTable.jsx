@@ -27,7 +27,7 @@ const MenuTable = () => {
     };
     console.log(data);
     try {
-      const response = await fetch(`http://localhost:5000/lunchChoice/add`, {
+      const response = await fetch(`http://localhost:3001/lunchChoice/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const MenuTable = () => {
   const hanldeRemove = async (id) => {
     const data = lunchData.find((lunch) => lunch.menuid === id && lunch.userid === user.id)
     try {
-      const response = await fetch(`http://localhost:5000/lunchChoice/${data.id}`, {
+      const response = await fetch(`http://localhost:3001/lunchChoice/${data.id}`, {
         method: "DELETE",
       });
       const result = await response.json();

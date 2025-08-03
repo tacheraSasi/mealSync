@@ -36,7 +36,7 @@ const UpdateButton = ({item}) => {
     console.log(menu);
     console.log(item.id);
     try {
-      const response = await fetch(`http://localhost:5000/menu/${item.id}`, {
+      const response = await fetch(`http://localhost:3001/menu/${item.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
