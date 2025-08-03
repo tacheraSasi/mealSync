@@ -7,15 +7,15 @@ import {
   deleteMealSelection,
   getMealSelection
 } from "./lunchChoice.controller";
+import { exportLunchChoices } from "../../services/lunchChoice.service";
 
 const lunchChoiceRouter = express.Router();
 
 // Apply authentication middleware to all routes
 lunchChoiceRouter.use(authenticateJWT);
 
-// Get all lunch choices for a user (with optional date filters)
+// Get all lunch choices for a user
 lunchChoiceRouter.get("/user/:userId", (req, res, next) => {
-  // Allow users to view their own choices or admins to view any user's choices
   const userId = parseInt(req.params.userId);
   const isAdmin = (req as any).user?.role === 'admin';
   
@@ -85,5 +85,14 @@ lunchChoiceRouter.get("/:choiceId", (req, res, next) => {
   (req as any).choiceId = choiceId;
   return next();
 }, getMealSelection);
+
+lunchChoiceRouter.get('/export', async (req, res) => {
+  try {
+    await exportLunchChoices();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to export meal plan");
+  }
+});
 
 export default lunchChoiceRouter;

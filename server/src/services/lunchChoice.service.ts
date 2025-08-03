@@ -3,10 +3,26 @@ import { LunchChoice } from "../entities/LunchChoice";
 import { User } from "../entities/User";
 import { Menu } from "../entities/Menu";
 import { isAfter, parseISO } from "date-fns";
+import ExcelJS from "exceljs";
+import { Repository } from "typeorm/repository/Repository";
 
-const lunchChoiceRepository = () => AppDataSource.getRepository(LunchChoice);
-const userRepository = () => AppDataSource.getRepository(User);
-const menuRepository = () => AppDataSource.getRepository(Menu);
+// Cache repository instances for better performance
+let cachedLunchChoiceRepository: Repository<LunchChoice> | null = null;
+
+const lunchChoiceRepository = () => {
+  if (!cachedLunchChoiceRepository) {
+    cachedLunchChoiceRepository = AppDataSource.getRepository(LunchChoice);
+  }
+  return cachedLunchChoiceRepository;
+};
+
+const userRepository = () => {
+  return AppDataSource.getRepository(User);
+};
+
+const menuRepository = () => {
+  return AppDataSource.getRepository(Menu);
+};
 
 interface LunchChoiceInput {
   userid: number;
@@ -339,6 +355,21 @@ async function updateLunchChoice(
   }
 }
 
+async function exportLunchChoices(){
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet("Meal Plan");
+
+  // Add Header Row
+  worksheet.columns = [
+    { header: "Username", key: "username", width: 20 },
+    { header: "Monday", key: "monday", width: 20 },
+    { header: "Tuesday", key: "tuesday", width: 20 },
+    { header: "Wednesday", key: "wednesday", width: 20 },
+    { header: "Thursday", key: "thursday", width: 20 },
+    { header: "Friday", key: "friday", width: 20 }
+  ];
+}
+
 export { 
   lunchChoiceCreate, 
   allLunchChoice, 
@@ -346,5 +377,6 @@ export {
   addLunchChoice, 
   deleteLunchChoice,
   getLunchChoiceById,
-  updateLunchChoice
+  updateLunchChoice,
+  exportLunchChoices
 };

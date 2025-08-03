@@ -6,7 +6,6 @@ import {
   getLunchChoiceById,
   updateLunchChoice,
 } from "../../services/lunchChoice.service";
-import { authenticateJWT } from "../../middleware/auth";
 
 export async function getUserLunchChoices(req: Request, res: Response): Promise<Response> {
   try {
