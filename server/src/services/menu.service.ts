@@ -1,7 +1,8 @@
-import { format } from "date-fns";
-import { Repository } from "typeorm";
+import { format, addDays, isSameDay } from "date-fns";
+import { Repository, In } from "typeorm";
 import { AppDataSource } from "../utils/data-source";
 import { Menu } from "../entities/Menu";
+import { MealTemplate } from "../entities/MealTemplate";
 
 const menuRepository = (): Repository<Menu> =>
   AppDataSource.getRepository(Menu);
@@ -85,4 +86,71 @@ async function menuUpdate(
   }
 }
 
-export { allMenu, menuCreate, menuUpdate };
+/**
+ * Generates weekly menus starting from the specified date
+ * @param weekStartDate - The start date of the week (should be a Monday)
+ * @param createdBy - Username of the admin creating the menus
+ * @returns Status and generated menus or error message
+ */
+async function generateWeeklyMenus(
+  weekStartDate: Date,
+  createdBy: string
+): Promise<{ status: string; result?: Menu[]; error?: string }> {
+  try {
+    const mealTemplates = await AppDataSource.getRepository(MealTemplate).find({
+      where: { isActive: true },
+    });
+
+    if (mealTemplates.length === 0) {
+      return { status: "error", error: "No active meal templates found" };
+    }
+
+    const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    const generatedMenus: Menu[] = [];
+    
+    // Format the dates for the week
+    const weekDates = weekDays.map((_, index) => {
+      const date = addDays(weekStartDate, index);
+      return format(date, "d-MMM-yyyy");
+    });
+    
+    // Find and remove existing menus for these dates
+    const existingMenus = await menuRepository().find({
+      where: { menudate: In(weekDates) },
+    });
+
+    if (existingMenus.length > 0) {
+      await menuRepository().remove(existingMenus);
+    }
+
+    // Generate 3 random meals for each workday
+    for (let i = 0; i < weekDays.length; i++) {
+      const currentDate = addDays(weekStartDate, i);
+      const formattedDate = format(currentDate, "d-MMM-yyyy");
+      
+      // Shuffle and select 3 random meals for the day
+      const dailyMeals = [...mealTemplates]
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3);
+
+      for (const meal of dailyMeals) {
+        const menu = new Menu();
+        menu.menuname = meal.name;
+        menu.description = meal.description;
+        menu.menudate = formattedDate;
+        menu.createdby = createdBy;
+        menu.isactive = isSameDay(currentDate, new Date());
+        
+        const savedMenu = await menuRepository().save(menu);
+        generatedMenus.push(savedMenu);
+      }
+    }
+
+    return { status: "success", result: generatedMenus };
+  } catch (error: any) {
+    console.error("Error generating weekly menus:", error);
+    return { status: "error", error: error.message };
+  }
+}
+
+export { allMenu, menuCreate, menuUpdate, generateWeeklyMenus };

@@ -13,12 +13,20 @@
     "seed:clear": "ts-node src/seeders/index.ts clear",
     "seed:refresh": "ts-node src/seeders/index.ts refresh"
   },
-  "keywords": ["nodejs", "express", "typescript", "lunch-management", "meal-planning", "office-tools"],
+  "keywords": [
+    "nodejs",
+    "express",
+    "typescript",
+    "lunch-management",
+    "meal-planning",
+    "office-tools"
+  ],
   "author": "tacheraSasi",
   "license": "ISC",
   "dependencies": {
     "@neondatabase/serverless": "^1.0.1",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "bcryptjs": "^3.0.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
@@ -26,6 +34,7 @@
     "date-fns": "^3.6.0",
     "dotenv": "^17.2.1",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.5",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.25"
