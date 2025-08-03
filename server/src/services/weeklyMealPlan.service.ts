@@ -43,7 +43,7 @@ interface WeeklyMealPlanResult {
   selectedAt: Date;
 }
 
-interface ServiceResponse<T> {
+export interface ServiceResponse<T> {
   status: "success" | "error" | "created" | "creation failed" | "updated";
   result?: T;
   error?: string;
