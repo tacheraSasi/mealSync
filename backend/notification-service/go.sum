@@ -1,2 +1,4 @@
 github.com/streadway/amqp v1.1.0 h1:py12iX8XSyI7aN/3dUT8DFIDJazNJsVJdxNVEpnQTZM=
 github.com/streadway/amqp v1.1.0/go.mod h1:WYSrTEYHOXHd0nwFeUXAe2G2hRnQT+deZJJf88uS9Bg=
+github.com/tacherasasi/notify-africa-go v0.0.0-20250626133849-f8a97e663ac1 h1:Merp+f0jzK/r7092OwhMwrUqcDRZolO4JalBWlOEtJc=
+github.com/tacherasasi/notify-africa-go v0.0.0-20250626133849-f8a97e663ac1/go.mod h1:YkR2KELZNwroqVE0tK+bzN0HdFfRyVluHXQhhA0Se8k=

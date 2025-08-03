@@ -306,9 +306,6 @@ const MenuTable = () => {
         </div>
       )}
     </div>
-                    <TableCell className="flex gap-x-10 text-green-500 pl-5">
-                      <SquareCheckBig className="size-5 " />
-                    </TableCell>
                   ) : (
                     <TableCell className="text-gray-400 pl-5 cursor-pointer">
                       <SquareCheckBig
