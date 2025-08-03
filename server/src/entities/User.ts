@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
 } from "typeorm";
 import { LunchChoice } from "./LunchChoice";
+import { WeeklyMealPlan } from "./WeeklyMealPlan";
 
 @Entity("user")
 export class User {
@@ -29,4 +30,7 @@ export class User {
 
   @OneToMany(() => LunchChoice, (lunchChoice) => lunchChoice.user)
   lunchChoices!: LunchChoice[];
+
+  @OneToMany(() => WeeklyMealPlan, (weeklyPlan) => weeklyPlan.user)
+  weeklyMealPlans!: WeeklyMealPlan[];
 }

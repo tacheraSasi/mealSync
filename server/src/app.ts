@@ -3,6 +3,8 @@ import cors from "cors";
 import userRouter from "./routes/user/user.routers";
 import menuRouter from "./routes/menu/menu.routers";
 import lunchChoiceRouter from "./routes/lunchChoice/lunchChoice.routers";
+import mealTemplateRouter from "./routes/mealTemplate/mealTemplate.routers";
+import weeklyMealPlanRouter from "./routes/weeklyMealPlan/weeklyMealPlan.routers";
 
 const app = express();
 
@@ -14,6 +16,8 @@ app.use(express.json());
 app.use("/user", userRouter);
 app.use("/menu", menuRouter);
 app.use("/lunchChoice", lunchChoiceRouter);
+app.use("/mealTemplate", mealTemplateRouter);
+app.use("/weeklyMealPlan", weeklyMealPlanRouter);
 
 // Root route
 app.get("/", (_req: Request, res: Response) => {

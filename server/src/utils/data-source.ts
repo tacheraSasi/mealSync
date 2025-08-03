@@ -4,6 +4,8 @@ import { config } from "dotenv";
 import { User } from "../entities/User";
 import { LunchChoice } from "../entities/LunchChoice";
 import { Menu } from "../entities/Menu";
+import { MealTemplate } from "../entities/MealTemplate";
+import { WeeklyMealPlan } from "../entities/WeeklyMealPlan";
 
 config(); // Load env first
 
@@ -13,5 +15,5 @@ export const AppDataSource = new DataSource({
   url: DATABASE_URL,
   synchronize: true,
   logging: false,
-  entities: [User, LunchChoice, Menu],
+  entities: [User, LunchChoice, Menu, MealTemplate, WeeklyMealPlan],
 });
