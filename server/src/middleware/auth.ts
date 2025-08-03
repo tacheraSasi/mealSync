@@ -15,11 +15,12 @@ declare global {
   }
 }
 
-export function authenticateJWT(req: Request, res: Response, next: NextFunction) {
+export function authenticateJWT(req: Request, res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
   
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'No token provided' });
+    res.status(401).json({ error: 'No token provided' });
+    return;
   }
 
   const token = authHeader.split(' ')[1];
@@ -32,7 +33,8 @@ export function authenticateJWT(req: Request, res: Response, next: NextFunction)
     userRepository.findOne({ where: { id: decoded.userId } })
       .then(user => {
         if (!user) {
-          return res.status(401).json({ error: 'User not found' });
+          res.status(401).json({ error: 'User not found' });
+          return;
         }
         
         req.user = {
@@ -45,17 +47,18 @@ export function authenticateJWT(req: Request, res: Response, next: NextFunction)
       })
       .catch(error => {
         console.error('Error fetching user:', error);
-        return res.status(500).json({ error: 'Error authenticating user' });
+        res.status(500).json({ error: 'Error authenticating user' });
       });
   } catch (error) {
-    return res.status(403).json({ error: 'Invalid or expired token' });
+    res.status(403).json({ error: 'Invalid or expired token' });
   }
 }
 
 export function authorizeRoles(...roles: string[]) {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: Request, res: Response, next: NextFunction): void => {
     if (!req.user || !roles.includes(req.user.role)) {
-      return res.status(403).json({ error: 'Unauthorized: Insufficient permissions' });
+      res.status(403).json({ error: 'Unauthorized: Insufficient permissions' });
+      return;
     }
     next();
   };

@@ -257,4 +257,94 @@ async function deleteLunchChoice(
   }
 }
 
-export { lunchChoiceCreate, allLunchChoice, getAllLunchChoices, addLunchChoice, deleteLunchChoice };
+async function getLunchChoiceById(id: number): Promise<ServiceResponse<LunchChoice>> {
+  try {
+    const choice = await lunchChoiceRepository().findOne({ 
+      where: { id },
+      relations: ['user', 'menu']
+    });
+    
+    if (!choice) {
+      return { status: 'error', error: 'Lunch choice not found' };
+    }
+    
+    return { status: 'success', result: choice };
+  } catch (error: any) {
+    console.error('Error getting lunch choice by ID:', error);
+    return { status: 'error', error: error.message };
+  }
+}
+
+async function updateLunchChoice(
+  id: number, 
+  updateData: Partial<LunchChoiceInput>
+): Promise<ServiceResponse<LunchChoice>> {
+  const queryRunner = AppDataSource.createQueryRunner();
+  
+  try {
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    
+    const choice = await lunchChoiceRepository().findOne({ where: { id } });
+    if (!choice) {
+      await queryRunner.rollbackTransaction();
+      return { status: 'error', error: 'Lunch choice not found' };
+    }
+    
+    // Update fields if provided
+    if (updateData.menuid) {
+      const menu = await menuRepository().findOne({ where: { id: updateData.menuid } });
+      if (!menu) {
+        await queryRunner.rollbackTransaction();
+        return { status: 'error', error: 'Menu not found' };
+      }
+      
+      // Check if the menu date is in the past or today after cutoff
+      const menuDate = parseISO(menu.menudate);
+      const today = new Date();
+      const cutoffTime = new Date(today);
+      cutoffTime.setHours(10, 0, 0, 0);
+      
+      if (isAfter(today, menuDate) && isAfter(today, cutoffTime)) {
+        await queryRunner.rollbackTransaction();
+        return { 
+          status: 'error', 
+          error: 'Cannot update to a menu from a past date or after 10 AM on the same day' 
+        };
+      }
+      
+      choice.menuid = updateData.menuid;
+      choice.menuname = updateData.menuname || menu.menuname;
+      choice.menudate = menu.menudate;
+    }
+    
+    if (updateData.username) {
+      choice.username = updateData.username;
+    }
+    
+    const updatedChoice = await lunchChoiceRepository().save(choice);
+    await queryRunner.commitTransaction();
+    
+    return { 
+      status: 'success', 
+      result: updatedChoice,
+      message: 'Meal selection updated successfully'
+    };
+  } catch (error: any) {
+    await queryRunner.rollbackTransaction();
+    console.error('Error updating lunch choice:', error);
+    return { status: 'error', error: error.message };
+  } finally {
+    await queryRunner.release();
+  }
+}
+
+export { 
+  lunchChoiceCreate, 
+  allLunchChoice, 
+  getAllLunchChoices, 
+  addLunchChoice, 
+  deleteLunchChoice,
+  getLunchChoiceById,
+  updateLunchChoice
+};
