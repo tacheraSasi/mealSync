@@ -1,30 +1,23 @@
 import { useEffect, useState } from "react";
-import { 
-  Badge, 
-  Button, 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardFooter, 
-  CardHeader, 
-  CardTitle 
-} from "@/components/ui";
+import { format, isBefore } from "date-fns";
 import { 
   CheckCircle2, 
   Clock, 
-  Plus, 
-  XCircle, 
   Utensils,
   CalendarDays,
-  Info,
-  Check
+  Info
 } from "lucide-react";
-import { format, isToday, isBefore, isAfter, isSameDay } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useAuth } from "@/contexts/AuthContext";
 import { fetchMenuData } from "@/hooks/fetchMenuData";
 import { fetchLunchData } from "@/hooks/fetchLunchData";
 import UpdateButton from "./UpdateButton";
-import { useAuth } from "../../contexts/AuthContext";
+import AddMenuButton from "./AddMenuButton";
 import { Skeleton } from "@/components/ui/skeleton";
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 const MenuTable = () => {
   const [menuData, setMenuData] = useState([]);
@@ -74,29 +67,7 @@ const MenuTable = () => {
     }
   };
 
-  // Handle removing a menu selection
-  const handleRemove = async (menuId) => {
-    const selection = lunchData.find(lunch => lunch.menuid === menuId && lunch.userid === user?.id);
-    if (!selection) return;
-    
-    try {
-      const response = await fetch(`${API_URL}/lunchChoice/${selection.id}`, {
-        method: "DELETE",
-      });
-      
-      const result = await response.json();
-      if (result.status === "success") {
-        await Promise.all([
-          fetchMenuData(setMenuData),
-          fetchLunchData(setLunchData)
-        ]);
-      } else {
-        console.error("Error:", result.error);
-      }
-    } catch (error) {
-      console.error("Error removing selection:", error);
-    }
-  };
+
 
   // Filter menu items by status
   const activeMenus = menuData.filter(item => item.isactive);
@@ -166,7 +137,7 @@ const MenuTable = () => {
   }
 
   // Menu card component
-  const MenuCard = ({ menu, status }) => {
+  const MenuCard = ({ menu }) => {
     const isSelected = isMenuSelected(menu.id);
     const isPast = isBefore(new Date(menu.menudate), new Date());
     const isActive = menu.isactive;
@@ -305,19 +276,6 @@ const MenuTable = () => {
           <AddMenuButton />
         </div>
       )}
-    </div>
-                  ) : (
-                    <TableCell className="text-gray-400 pl-5 cursor-pointer">
-                      <SquareCheckBig
-                        className="size-5 "
-                      />
-                    </TableCell>
-                  )}
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </div>
     </div>
   );
 };
