@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import Loader from '../common/Loader';
@@ -48,22 +47,6 @@ const ProtectedRoute = ({
 
   // User is authenticated and has required role, render children
   return children;
-};
-
-ProtectedRoute.propTypes = {
-  /** Child components to be rendered if authenticated */
-  children: PropTypes.node.isRequired,
-  
-  /** Required role to access the route (e.g., 'admin') */
-  requiredRole: PropTypes.string,
-  
-  /** Custom redirect path when user is unauthorized */
-  redirectTo: PropTypes.string,
-};
-
-ProtectedRoute.defaultProps = {
-  requiredRole: null,
-  redirectTo: null,
 };
 
 export default ProtectedRoute;

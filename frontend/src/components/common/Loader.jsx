@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 /**
  * A customizable loading spinner component
  * @param {Object} props - Component props
@@ -38,18 +36,6 @@ const Loader = ({ fullScreen = false, size = 'md', className = '' }) => {
   }
 
   return loader;
-};
-
-Loader.propTypes = {
-  fullScreen: PropTypes.bool,
-  size: PropTypes.oneOf(['sm', 'md', 'lg', 'xl']),
-  className: PropTypes.string,
-};
-
-Loader.defaultProps = {
-  fullScreen: false,
-  size: 'md',
-  className: '',
 };
 
 export default Loader;

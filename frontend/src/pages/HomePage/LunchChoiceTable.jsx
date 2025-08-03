@@ -11,14 +11,16 @@ import { SquareCheckBig } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { fetchLunchData } from "@/hooks/fetchLunchData";
 import { format, isBefore } from "date-fns";
+import { useAuth } from "@/contexts/AuthContext";
+
 const LunchChoiceTable = () => {
   const [choice, setChoice] = useState({});
   const [lunchData, setLunchData] = useState([]);
+  const { user } = useAuth();
+  
   useEffect(() => {
     fetchLunchData(setLunchData);
   }, []);
-
-  const user = JSON.parse(sessionStorage.getItem("user"));
 
   const hanldeRemove = async (id) => {
     try {
@@ -71,7 +73,7 @@ const LunchChoiceTable = () => {
                   <TableCell>{item.username}</TableCell>
                   <TableCell className="flex gap-x-10 text-green-500 pl-5">
                     <SquareCheckBig className="size-5 " />
-                    {item.userid === user.id && (
+                    {item.userid === user?.id && (
                       <Badge
                       onClick={() => hanldeRemove(item.id)}
                       variant="destructive"

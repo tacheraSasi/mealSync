@@ -6,20 +6,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 const NavBar = ({ setActive }) => {
-  const navigate = useNavigate();
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const { user, logout } = useAuth();
+  
   const handleLogout = () => {
-    sessionStorage.removeItem("user");
-    navigate("/");
+    logout();
   };
+  
   return (
     <nav className="bg-blue-500 py-5 ">
       <div className="container flex justify-between">
         <ul className=" flex  font-semibold text-white">
-         {user.role === "admin" &&  <Button
+         {user?.role === "admin" &&  <Button
             onClick={() =>
               setActive({
                 menu: false,
@@ -41,7 +41,7 @@ const NavBar = ({ setActive }) => {
             } variant="link" className="text-white">
             Lunch Menu
           </Button>
-          {user.role === "admin" && <Button onClick={() =>
+          {user?.role === "admin" && <Button onClick={() =>
               setActive({
                 menu: false,
                 user: false,

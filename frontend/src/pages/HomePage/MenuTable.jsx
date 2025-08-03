@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -15,11 +15,12 @@ import { Badge } from "@/components/ui/badge";
 import { fetchMenuData } from "@/hooks/fetchMenuData";
 import { fetchLunchData } from "@/hooks/fetchLunchData";
 import UpdateButton from "./UpdateButton";
+import { useAuth } from "../../contexts/AuthContext";
 
 const MenuTable = () => {
   const [menuData, setMenuData] = useState([]);
   const [lunchData, setLunchData] = useState([]);
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const { user } = useAuth();
   const handleAddMenu = async (userid, menuid) => {
     const data = {
       userid,
@@ -54,7 +55,7 @@ const MenuTable = () => {
   }, []);
 
   const hanldeRemove = async (id) => {
-    const data = lunchData.find((lunch) => lunch.menuid === id && lunch.userid === user.id)
+    const data = lunchData.find((lunch) => lunch.menuid === id && lunch.userid === user?.id)
     try {
       const response = await fetch(`http://localhost:3001/lunchChoice/${data.id}`, {
         method: "DELETE",
@@ -76,7 +77,7 @@ const MenuTable = () => {
     <div className="container">
       <div className="flex pt-16 pb-6 justify-between">
         <h1 className="text-3xl  text-slate-700 font-bold">Menu List</h1>
-        {user.role === "admin" ? <AddMenuButton /> : ""}
+        {user?.role === "admin" ? <AddMenuButton /> : ""}
       </div>
       <div className="border rounded-md">
         <p className="text-center text-xl font-medium py-3 text-slate-700 bg-green-400">
@@ -103,7 +104,7 @@ const MenuTable = () => {
                   <TableCell className="font-medium">{item.menuname}</TableCell>
                   <TableCell>{item.description}</TableCell>
                   <TableCell className="text-green-500 ">Active</TableCell>
-                  {lunchData.find((lunch) => lunch.menuid === item.id && lunch.userid === user.id) ? (
+                  {lunchData.find((lunch) => lunch.menuid === item.id && lunch.userid === user?.id) ? (
                     <TableCell className="flex justify-between text-green-500 px-5">
                       <SquareCheckBig className="size-5 " />
                       <div className="flex gap-2">
@@ -114,16 +115,16 @@ const MenuTable = () => {
                       >
                         remove
                       </Badge>
-                      {user.role === "admin" ? <UpdateButton item={item} /> : ""}
+                      {user?.role === "admin" ? <UpdateButton item={item} /> : ""}
                       </div>
                     </TableCell>
                   ) : (
                     <TableCell className="text-gray-400 flex justify-between hover:text-green-500 px-5 cursor-pointer">
                       <SquareCheckBig
-                        onClick={() => handleAddMenu(user.id, item.id)}
+                        onClick={() => handleAddMenu(user?.id, item.id)}
                         className="size-5 "
                       />
-                      {user.role === "admin" ? <UpdateButton item={item} /> : ""}
+                      {user?.role === "admin" ? <UpdateButton item={item} /> : ""}
                     </TableCell>
                   )}
                 </TableRow>
@@ -132,7 +133,7 @@ const MenuTable = () => {
         </Table>
       </div>
 
-      {user.role == "admin" && (
+      {user?.role === "admin" && (
         <div className="border rounded-md mt-10">
           <p className="text-center text-xl font-medium py-3 text-slate-700 bg-indigo-300">
             PENDING MENU
@@ -196,7 +197,7 @@ const MenuTable = () => {
                   <TableCell className="font-medium">{item.menuname}</TableCell>
                   <TableCell>{item.description}</TableCell>
                   <TableCell className="text-red-600 opacity-50">Close</TableCell>
-                  {lunchData.find((lunch) => lunch.menuid === item.id && lunch.userid === user.id) ? (
+                  {lunchData.find((lunch) => lunch.menuid === item.id && lunch.userid === user?.id) ? (
                     <TableCell className="flex gap-x-10 text-green-500 pl-5">
                       <SquareCheckBig className="size-5 " />
                     </TableCell>

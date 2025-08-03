@@ -17,10 +17,12 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import MenuDateInput from "./MenuDateInput";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/contexts/AuthContext";
+
 const UpdateButton = ({item}) => {
   const [date, setDate] = useState(item.menudate);
   const dateString = date ? format(date, "d-MMM-yyyy") : "";
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const { user } = useAuth();
   const {
     register,
     formState: { errors },
@@ -31,7 +33,7 @@ const UpdateButton = ({item}) => {
       menuname: data.menuname,
       description: data.description,
       menudate: dateString,
-      createdby: user.id,
+      createdby: user?.id,
     };
     console.log(menu);
     console.log(item.id);

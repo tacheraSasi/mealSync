@@ -16,10 +16,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import MenuDateInput from "./MenuDateInput";
+import { useAuth } from "@/contexts/AuthContext";
+
 const AddMenuButton = () => {
   const [date, setDate] = useState();
   const dateString = date ? format(date, "d-MMM-yyyy") : "";
-const user = JSON.parse(sessionStorage.getItem("user"));
+  const { user } = useAuth();
   const {
     register,
     formState: { errors },
@@ -30,7 +32,7 @@ const user = JSON.parse(sessionStorage.getItem("user"));
       menuname: data.menuname,
       description: data.description,
       menudate: dateString,
-      createdby: user.id,
+      createdby: user?.id,
     }
     try {
       const response = await fetch("http://localhost:3001/menu/add", {

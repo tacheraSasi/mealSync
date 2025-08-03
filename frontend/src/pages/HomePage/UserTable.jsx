@@ -8,13 +8,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+
 const UserTable = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
-  const user = JSON.parse(sessionStorage.getItem("user"));
-  if (user.role !== "admin") {
-    return navigate("/");
-  }
+  const { user } = useAuth();
+  
   useEffect(() => {
     try {
       fetch("http://localhost:3001/user")
@@ -30,6 +30,16 @@ const UserTable = () => {
       console.error("Error checking user:", error);
     }
   }, []);
+
+  useEffect(() => {
+    if (user?.role !== "admin") {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
+  if (user?.role !== "admin") {
+    return null;
+  }
 
   return (
     <div className="container">
