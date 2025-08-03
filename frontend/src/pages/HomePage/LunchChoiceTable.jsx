@@ -285,37 +285,158 @@ const LunchChoiceTable = () => {
               {lunchData.filter(c => c.userid === user?.id).length}
             </div>
             <div className="text-sm text-slate-500 mt-1">
-              Meals you've selected
-            </div>
-          </CardContent>
-        </Card>
+};
+
+// Get choices for the selected date
+const selectedDateChoices = useMemo(() => {
+  const dateKey = format(selectedDate, 'yyyy-MM-dd');
+  return calendarEvents.get(dateKey) || [];
+}, [selectedDate, calendarEvents]);
+
+return (
+  <div className="container py-8">
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900">Meal Selections</h1>
+        <p className="text-slate-500">View and manage meal selections</p>
       </div>
-              <TableHead>User Name</TableHead>
-              <TableHead>Choose</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {lunchData
-              .filter(
-                (item) => item.menudate !== format(new Date(), "dd-MMM-yyyy")
-              )
-              .map((item, index) => (
-                <TableRow key={item.id} className="cursor-not-allowed opacity-50 bg-gray-100 hover:bg-gray-100">
-                  <TableCell className="pl-5">{index + 1}</TableCell>
-                  <TableCell>{item.menudate}</TableCell>
-                  <TableCell className="font-medium">{item.menuname}</TableCell>
-                  <TableCell>{item.username}</TableCell>
-                  <TableCell className="flex gap-x-10 text-green-500 pl-5">
-                    <SquareCheckBig className="size-5 " />
-                  
+      <Button 
+        onClick={exportToExcel}
+        className="bg-emerald-600 hover:bg-emerald-700 flex items-center gap-2"
+        disabled={isLoading || lunchData.length === 0}
+      >
+        <Download className="h-4 w-4" />
+        Export to Excel
+      </Button>
+    </div>
+    
+    {/* Weekly Calendar */}
+    <div className="mb-8">
+      <WeeklyCalendar
+        selectedDate={selectedDate}
+        onDateSelect={handleDateSelect}
+        onPreviousWeek={handlePreviousWeek}
+        onNextWeek={handleNextWeek}
+        events={Object.entries(calendarEvents).map(([date, events]) => ({
+          date,
+          title: `${events.length} ${events.length === 1 ? 'selection' : 'selections'}`
+        }))}
+        isLoading={isLoading}
+      />
+    </div>
+    
+    {/* Selections for the selected date */}
+    <Card>
+      <CardHeader className="bg-slate-50 border-b">
+        <CardTitle className="text-lg font-semibold">
+          Selections for {format(selectedDate, 'EEEE, MMMM d, yyyy')}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="p-0">
+        {isLoading ? (
+          <div className="p-6 text-center text-slate-500">
+            Loading selections...
+          </div>
+        ) : selectedDateChoices.length === 0 ? (
+          <div className="p-6 text-center text-slate-400">
+            No selections for this day
+          </div>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-12">#</TableHead>
+                <TableHead>Employee</TableHead>
+                <TableHead>Meal Choice</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {selectedDateChoices.map((choice, index) => (
+                <TableRow key={choice.id}>
+                  <TableCell className="text-slate-500">{index + 1}</TableCell>
+                  <TableCell>
+                    <div className="font-medium">{choice.username}</div>
+                    <div className="text-sm text-slate-500">{choice.useremail}</div>
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {choice.menuname}
+                    {choice.userid === user?.id && (
+                      <Badge variant="outline" className="ml-2">
+                        Your selection
+                      </Badge>
+                    )}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {(user?.role === 'admin' || choice.userid === user?.id) && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-500 hover:bg-red-50 hover:text-red-600"
+                        onClick={() => handleRemove(choice.id)}
+                      >
+                        <Trash2 className="h-4 w-4 mr-1.5" />
+                        Remove
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
-          </TableBody>
-        </Table>
-      </div>
+            </TableBody>
+          </Table>
+        )}
+      </CardContent>
+    </Card>
+    
+    {/* Summary Card */}
+    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm font-medium text-slate-500">
+            Total Selections
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-3xl font-bold">{lunchData.length}</div>
+          <div className="text-sm text-slate-500 mt-1">
+            Across all dates
+          </div>
+        </CardContent>
+      </Card>
+      
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm font-medium text-slate-500">
+            Selected Date
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-3xl font-bold">
+            {selectedDateChoices.length}
+          </div>
+          <div className="text-sm text-slate-500 mt-1">
+            Selections for {format(selectedDate, 'MMM d, yyyy')}
+          </div>
+        </CardContent>
+      </Card>
+      
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm font-medium text-slate-500">
+            Your Selections
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-3xl font-bold">
+            {lunchData.filter(c => c.userid === user?.id).length}
+          </div>
+          <div className="text-sm text-slate-500 mt-1">
+            Meals you've selected
+          </div>
+        </CardContent>
+      </Card>
     </div>
-  );
-};
+  </div>
+);
 
 export default LunchChoiceTable;

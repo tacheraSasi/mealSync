@@ -1,4 +1,3 @@
-// notifications/main.go
 package main
 
 import (
@@ -42,20 +41,20 @@ func sendSms(number, message string) error {
 	cfg := client.Config{
 		SMSApiKey:   os.Getenv("SMS_APIKEY"),
 		EmailApiKey: os.Getenv("EMAIL_APIKEY"),
-		// Optionally override BaseURL:
-		// BaseURL: "https://custom.url/v2",
 	}
+
 	c := client.NewClient(cfg)
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
+
 	// Send SMS
-	smsResp, err := c.SMS.SendSMSWithContext(ctx, 1, "Hello from Notify Africa!", []string{"2557654321"})
+	smsResp, err := c.SMS.SendSMSWithContext(ctx, 1, message, []string{number})
 	if err != nil {
 		log.Fatalf("SMS error: %v", err)
+		return err
 	}
 	log.Printf("SMS sent! Status: %d, Message: %s", smsResp.Status, smsResp.Message)
 
-	log.Printf("Sending SMS to %s: %s\n", number, message)
 	return nil
 }
 
