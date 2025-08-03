@@ -1,5 +1,4 @@
-import { PlusCircledIcon } from "@radix-ui/react-icons";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -18,6 +17,7 @@ import { useForm } from "react-hook-form";
 import MenuDateInput from "./MenuDateInput";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
+import { API_URL } from "@/lib/constants";
 
 const UpdateButton = ({item}) => {
   const [date, setDate] = useState(item.menudate);
@@ -38,7 +38,7 @@ const UpdateButton = ({item}) => {
     console.log(menu);
     console.log(item.id);
     try {
-      const response = await fetch(`http://localhost:3001/menu/${item.id}`, {
+      const response = await fetch(`${API_URL}/menu/${item.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

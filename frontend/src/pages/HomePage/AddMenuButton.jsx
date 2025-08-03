@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import MenuDateInput from "./MenuDateInput";
 import { useAuth } from "@/contexts/AuthContext";
+import { API_URL } from "@/lib/constants";
 
 const AddMenuButton = () => {
   const [date, setDate] = useState();
@@ -35,7 +36,7 @@ const AddMenuButton = () => {
       createdby: user?.id,
     }
     try {
-      const response = await fetch("http://localhost:3001/menu/add", {
+      const response = await fetch(API_URL+"/menu/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

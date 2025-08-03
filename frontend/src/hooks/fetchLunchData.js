@@ -1,6 +1,8 @@
+import { API_URL } from "@/lib/constants";
+
 export const fetchLunchData = async (setLunchData) => {
     try {
-      const response = await fetch("http://localhost:3001/lunchChoice");
+      const response = await fetch(API_URL+"/lunchChoice");
       const data = await response.json();
       if (data.status === "success") {
         setLunchData(data.result);

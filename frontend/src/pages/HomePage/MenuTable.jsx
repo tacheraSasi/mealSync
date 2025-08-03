@@ -54,7 +54,7 @@ const MenuTable = () => {
   // Handle selecting a menu item
   const handleAddMenu = async (userid, menuid) => {
     try {
-      const response = await fetch(`http://localhost:3001/lunchChoice/add`, {
+      const response = await fetch(`${API_URL} /lunchChoice/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userid, menuid }),
@@ -80,7 +80,7 @@ const MenuTable = () => {
     if (!selection) return;
     
     try {
-      const response = await fetch(`http://localhost:3001/lunchChoice/${selection.id}`, {
+      const response = await fetch(`${API_URL}/lunchChoice/${selection.id}`, {
         method: "DELETE",
       });
       

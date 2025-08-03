@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { API_URL } from "@/lib/constants";
 
 const UserTable = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const UserTable = () => {
   
   useEffect(() => {
     try {
-      fetch("http://localhost:3001/user")
+      fetch(API_URL+"/user")
         .then((res) => res.json())
         .then((data) => {
           if (data.status === "success") {
