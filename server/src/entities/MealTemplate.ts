@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn } from "typeorm";
 import { WeeklyMealPlan } from "./WeeklyMealPlan";
 
+
 @Entity("meal_template")
 export class MealTemplate {
   @PrimaryGeneratedColumn()
