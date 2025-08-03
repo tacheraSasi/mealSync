@@ -1,10 +1,10 @@
-# iPF SmartMeal 🍽️
+# iPF mealSync 🍽️
 
 **Weekly Employee Food Selection System**
 
 ## Description
 
-SmartMeal by **IPF Software** automates weekly meal planning in workplaces. Employees select meals in advance, receive reminders via email and SMS, and admins manage menus and generate catering reports.
+mealSync by **IPF Software** automates weekly meal planning in workplaces. Employees select meals in advance, receive reminders via email and SMS, and admins manage menus and generate catering reports.
 
 This solution eliminates manual spreadsheets, reduces food wastage, and streamlines meal ordering.
 
@@ -46,8 +46,8 @@ This solution eliminates manual spreadsheets, reduces food wastage, and streamli
 
 1. Clone repo:
    ```bash
-   git clone https://github.com/yourusername/ipf-smartmeal.git
-   cd ipf-smartmeal
+   git clone https://github.com/yourusername/ipf-mealSync.git
+   cd ipf-mealSync
 
 2. Instal dependencies
    ```bash
