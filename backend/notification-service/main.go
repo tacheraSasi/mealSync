@@ -17,8 +17,8 @@ type EmailRequest struct {
 }
 
 func sendEmail(to, subject, body string) error {
-	from := "your_email@example.com"
-	password := "your_smtp_password"
+	from := ""
+	password := ""
 	smtpHost := "smtp.example.com"
 	smtpPort := "587"
 
