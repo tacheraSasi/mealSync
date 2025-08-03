@@ -16,7 +16,7 @@ app.use("/menu", menuRouter);
 app.use("/lunchChoice", lunchChoiceRouter);
 
 // Root route
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (_req: Request, res: Response) => {
   res.send("office lunch menu management server");
 });
 

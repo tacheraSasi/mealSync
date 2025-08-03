@@ -92,6 +92,48 @@ npm start
 
 The server will be available at `http://localhost:3001`
 
+## 🌱 Database Seeding
+
+The project includes comprehensive seeders to populate your database with sample data for development and testing.
+
+### Available Seeder Commands
+
+```bash
+# Seed the database with sample data
+npm run seed
+
+# Clear all seeded data
+npm run seed:clear
+
+# Clear and then re-seed the database
+npm run seed:refresh
+```
+
+### Sample Data Included
+
+- **8 Sample Users**: Including admin, chef, and regular users
+- **11 Sample Menus**: Multi-day menus with realistic food items
+- **Lunch Choices**: Realistic user selections for different menu items
+
+**Default Admin Credentials:**
+- Email: `admin@mealsync.com`
+- Password: `admin123`
+
+**Default Chef Credentials:**
+- Email: `maria@mealsync.com`
+- Password: `chef123`
+
+**Sample User Credentials:**
+- Email: `john.doe@company.com`
+- Password: `password123`
+
+### Seeder Features
+
+- **Duplicate Prevention**: Won't create duplicate entries on multiple runs
+- **Realistic Data**: Varied menu items across different dates
+- **Active Status Management**: Today's menus are automatically marked as active
+- **Relationship Handling**: Proper foreign key relationships between entities
+
 ## 📚 API Endpoints
 
 ### User Management
@@ -144,6 +186,11 @@ npm run dev
 
 # Build the project
 npm run build
+
+# Database seeding
+npm run seed          # Seed database with sample data
+npm run seed:clear    # Clear all seeded data
+npm run seed:refresh  # Clear and re-seed database
 
 # Run tests (when implemented)
 npm test
