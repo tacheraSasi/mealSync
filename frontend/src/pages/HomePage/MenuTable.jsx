@@ -5,7 +5,8 @@ import {
   Clock, 
   Utensils,
   CalendarDays,
-  Info
+  Info,
+  Plus
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -47,7 +48,7 @@ const MenuTable = () => {
   // Handle selecting a menu item
   const handleAddMenu = async (userid, menuid) => {
     try {
-      const response = await fetch(`${API_URL} /lunchChoice/add`, {
+      const response = await fetch(`${API_URL}/lunchChoice/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userid, menuid }),
@@ -227,7 +228,7 @@ const MenuTable = () => {
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-1.5 h-8 bg-emerald-500 rounded-full"></div>
-            <h2 className="text-2xl font-bold text-slate-900">Today's Options</h2>
+            <h2 className="text-2xl font-bold text-slate-900">Todays Options</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
