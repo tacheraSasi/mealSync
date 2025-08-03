@@ -1,0 +1,761 @@
+{
+	"info": {
+		"_postman_id": "mealsync-api-collection",
+		"name": "MealSync API Collection",
+		"description": "Complete API collection for MealSync - Office Lunch Menu Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "mealsync"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "User Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						},
+						"description": "Login with email and password"
+					},
+					"response": []
+				},
+				{
+					"name": "User Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"newuser\",\n  \"email\": \"newuser@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						},
+						"description": "Register a new user account"
+					},
+					"response": []
+				}
+			],
+			"description": "User authentication endpoints"
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user"
+							]
+						},
+						"description": "Retrieve all users in the system"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"{{userId}}"
+							]
+						},
+						"description": "Retrieve a specific user by their ID"
+					},
+					"response": []
+				}
+			],
+			"description": "User management endpoints"
+		},
+		{
+			"name": "Menu Management",
+			"item": [
+				{
+					"name": "Get All Menus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/menu",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"menu"
+							]
+						},
+						"description": "Retrieve all available menus"
+					},
+					"response": []
+				},
+				{
+					"name": "Add New Menu",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"menuname\": \"Grilled Chicken Salad\",\n  \"menudate\": \"2025-08-05\",\n  \"description\": \"Fresh grilled chicken with mixed greens and vinaigrette\",\n  \"price\": 12.99\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/menu/add",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"menu",
+								"add"
+							]
+						},
+						"description": "Add a new menu item"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Menu",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"menuname\": \"Updated Grilled Chicken Salad\",\n  \"description\": \"Premium grilled chicken with organic mixed greens\",\n  \"price\": 14.99\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/menu/{{menuId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"menu",
+								"{{menuId}}"
+							]
+						},
+						"description": "Update an existing menu item"
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Weekly Menu",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"weekStartDate\": \"2025-08-04\",\n  \"mealTemplateIds\": [1, 2, 3, 4, 5]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/menu/generate-weekly",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"menu",
+								"generate-weekly"
+							]
+						},
+						"description": "Generate weekly menu (Admin only)"
+					},
+					"response": []
+				}
+			],
+			"description": "Menu management endpoints"
+		},
+		{
+			"name": "Lunch Choices",
+			"item": [
+				{
+					"name": "Get User Lunch Choices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/lunchChoice/user/{{userId}}?startDate=2025-08-01&endDate=2025-08-07",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"lunchChoice",
+								"user",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2025-08-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-08-07"
+								}
+							]
+						},
+						"description": "Get all lunch choices for a specific user with optional date filtering"
+					},
+					"response": []
+				},
+				{
+					"name": "Select Meal for User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"menuId\": 1,\n  \"menuName\": \"Grilled Chicken Salad\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/lunchChoice/user/{{userId}}/select",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"lunchChoice",
+								"user",
+								"{{userId}}",
+								"select"
+							]
+						},
+						"description": "Select a meal for a user"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Meal Selection by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/lunchChoice/{{choiceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"lunchChoice",
+								"{{choiceId}}"
+							]
+						},
+						"description": "Get a specific meal selection by choice ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Meal Selection",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"menuId\": 2,\n  \"menuName\": \"Caesar Salad\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/lunchChoice/{{choiceId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"lunchChoice",
+								"{{choiceId}}"
+							]
+						},
+						"description": "Update an existing meal selection"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Meal Selection",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/lunchChoice/{{choiceId}}/user/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"lunchChoice",
+								"{{choiceId}}",
+								"user",
+								"{{userId}}"
+							]
+						},
+						"description": "Delete a meal selection"
+					},
+					"response": []
+				},
+				{
+					"name": "Export Weekly Meal Plan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/lunchChoice/export",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"lunchChoice",
+								"export"
+							]
+						},
+						"description": "Export weekly meal plan to Excel format (Username | Monday | Tuesday | Wednesday | Thursday | Friday)"
+					},
+					"response": []
+				}
+			],
+			"description": "Lunch choice management endpoints"
+		},
+		{
+			"name": "Meal Templates",
+			"item": [
+				{
+					"name": "Get All Meal Templates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/mealTemplate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"mealTemplate"
+							]
+						},
+						"description": "Retrieve all meal templates"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Meal Templates by Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/mealTemplate/category/{{category}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"mealTemplate",
+								"category",
+								"{{category}}"
+							]
+						},
+						"description": "Get meal templates filtered by category (e.g., Main Course, Soup, Salad, Dessert, Beverage)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Meal Template by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/mealTemplate/{{templateId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"mealTemplate",
+								"{{templateId}}"
+							]
+						},
+						"description": "Retrieve a specific meal template by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Meal Template",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Spicy Tuna Roll\",\n  \"description\": \"Fresh tuna with spicy mayo and cucumber\",\n  \"category\": \"Main Course\",\n  \"createdBy\": \"Admin\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/mealTemplate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"mealTemplate"
+							]
+						},
+						"description": "Create a new meal template"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Meal Template",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Premium Spicy Tuna Roll\",\n  \"description\": \"Premium tuna with spicy mayo, cucumber and avocado\",\n  \"category\": \"Main Course\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/mealTemplate/{{templateId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"mealTemplate",
+								"{{templateId}}"
+							]
+						},
+						"description": "Update an existing meal template"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Meal Template",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/mealTemplate/{{templateId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"mealTemplate",
+								"{{templateId}}"
+							]
+						},
+						"description": "Soft delete a meal template (sets isActive to false)"
+					},
+					"response": []
+				}
+			],
+			"description": "Meal template management endpoints"
+		},
+		{
+			"name": "Weekly Meal Planning",
+			"item": [
+				{
+					"name": "Get Weekly Planning Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/weeklyMealPlan/info",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"weeklyMealPlan",
+								"info"
+							]
+						},
+						"description": "Get information about weekly planning (is it Friday, next week date, etc.)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Weekly Meal Plans",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/weeklyMealPlan",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"weeklyMealPlan"
+							]
+						},
+						"description": "Get all weekly meal plans (Admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Weekly Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/weeklyMealPlan/summary",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"weeklyMealPlan",
+								"summary"
+							]
+						},
+						"description": "Get weekly meal plan summary for administrators"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Weekly Meal Plan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/weeklyMealPlan/user/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"weeklyMealPlan",
+								"user",
+								"{{userId}}"
+							]
+						},
+						"description": "Get weekly meal plan for a specific user"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Weekly Meal Selection",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 1,\n  \"weeklySelections\": {\n    \"Monday\": [1, 5],\n    \"Tuesday\": [2, 6],\n    \"Wednesday\": [3, 7],\n    \"Thursday\": [4, 8],\n    \"Friday\": [1, 9]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/weeklyMealPlan",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"weeklyMealPlan"
+							]
+						},
+						"description": "Create weekly meal selection (Friday only - office workflow)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Weekly Meal Plan Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"confirmed\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/weeklyMealPlan/{{planId}}/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"weeklyMealPlan",
+								"{{planId}}",
+								"status"
+							]
+						},
+						"description": "Update the status of a weekly meal plan"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Weekly Meal Plan",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/weeklyMealPlan/{{planId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"weeklyMealPlan",
+								"{{planId}}"
+							]
+						},
+						"description": "Delete a weekly meal plan"
+					},
+					"response": []
+				}
+			],
+			"description": "Weekly meal planning endpoints - Friday-based selection for entire next week"
+		},
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Server Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								""
+							]
+						},
+						"description": "Check if the server is running"
+					},
+					"response": []
+				}
+			],
+			"description": "Health check and status endpoints"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3001",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "menuId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "choiceId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "templateId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "planId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "category",
+			"value": "Main Course",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
