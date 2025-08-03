@@ -18,6 +18,7 @@ interface UserResult {
   username: string;
   email: string;
   role: string;
+  token?: string; // NOTE: for login responses
 }
 
 interface ServiceResponse<T> {
@@ -88,7 +89,6 @@ async function loginUser({
       select: ["id", "username", "email", "role", "password"]
     });
     
-    // Perform password check even if user not found to prevent timing attacks
     const dummyHash = "$2a$10$dummyhashtopreventtimingattacks";
     const userPassword = foundUser?.password || dummyHash;
     const valid = await bcrypt.compare(password, userPassword);
@@ -102,8 +102,13 @@ async function loginUser({
       username: foundUser.username,
       email: foundUser.email,
       role: foundUser.role,
+      token: "",
     };
-    return { status: "success", result: data };
+    return { status: "success", 
+      result: {
+      ...data
+    } 
+    };
   } catch (error: unknown) {
     return { 
       status: "error", 
