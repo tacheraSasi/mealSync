@@ -8,7 +8,10 @@
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "start:ts": "ts-node src/server.ts"
+    "start:ts": "ts-node src/server.ts",
+    "seed": "ts-node src/seeders/index.ts seed",
+    "seed:clear": "ts-node src/seeders/index.ts clear",
+    "seed:refresh": "ts-node src/seeders/index.ts refresh"
   },
   "keywords": ["nodejs", "express", "typescript", "lunch-management", "meal-planning", "office-tools"],
   "author": "tacheraSasi",

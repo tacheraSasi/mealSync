@@ -6,7 +6,7 @@ import {
   loginUser,
 } from "../../services/user.service";
 
-export async function getAllUsers(res: Response): Promise<Response> {
+export async function getAllUsers(req: Request, res: Response): Promise<Response> {
   try {
     const result = await allUsers();
     return res.status(200).json(result);
