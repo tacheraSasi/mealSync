@@ -1,8 +1,21 @@
+import PropTypes from 'prop-types';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import Loader from '../common/Loader';
 
-const ProtectedRoute = ({ children, requiredRole = null }) => {
+/**
+ * A component that protects routes based on authentication and role-based access
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Child components to render if authenticated
+ * @param {string} [props.requiredRole] - Required role to access the route (e.g., 'admin')
+ * @param {string} [props.redirectTo] - Custom redirect path when unauthorized
+ * @returns {JSX.Element} The protected route component
+ */
+const ProtectedRoute = ({ 
+  children, 
+  requiredRole = null, 
+  redirectTo = null 
+}) => {
   const { user, loading, isAuthenticated } = useAuth();
   const location = useLocation();
 
@@ -10,18 +23,47 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
     return <Loader fullScreen />;
   }
 
+  // If not authenticated, redirect to login with return URL
   if (!isAuthenticated) {
-    // Redirect to login page, but save the current location they were trying to go to
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return (
+      <Navigate 
+        to="/login" 
+        state={{ from: location }} 
+        replace 
+      />
+    );
   }
 
-  // Check if the user has the required role
-  if (requiredRole && user.role !== requiredRole) {
-    // User doesn't have the required role, redirect to home or unauthorized page
-    return <Navigate to="/unauthorized" replace />;
+  // Check if user has the required role if specified
+  if (requiredRole && user?.role !== requiredRole) {
+    // Redirect to custom path or unauthorized page
+    return (
+      <Navigate 
+        to={redirectTo || '/unauthorized'} 
+        state={{ from: location }} 
+        replace 
+      />
+    );
   }
 
+  // User is authenticated and has required role, render children
   return children;
+};
+
+ProtectedRoute.propTypes = {
+  /** Child components to be rendered if authenticated */
+  children: PropTypes.node.isRequired,
+  
+  /** Required role to access the route (e.g., 'admin') */
+  requiredRole: PropTypes.string,
+  
+  /** Custom redirect path when user is unauthorized */
+  redirectTo: PropTypes.string,
+};
+
+ProtectedRoute.defaultProps = {
+  requiredRole: null,
+  redirectTo: null,
 };
 
 export default ProtectedRoute;

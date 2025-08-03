@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const AuthContext = createContext(null);
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://localhost:3001';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -16,17 +16,15 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (token) {
-          // Verify token with backend
-          const response = await axios.get(`${API_URL}/user/me`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setUser(response.data);
+        const userData = localStorage.getItem('user');
+        if (userData) {
+          // Parse stored user data
+          const user = JSON.parse(userData);
+          setUser(user);
         }
       } catch (err) {
         console.error('Authentication check failed:', err);
-        localStorage.removeItem('token');
+        localStorage.removeItem('user');
       } finally {
         setLoading(false);
       }
@@ -44,13 +42,19 @@ export const AuthProvider = ({ children }) => {
         password,
       });
       
-      const { token, user } = response.data;
-      localStorage.setItem('token', token);
-      setUser(user);
-      navigate('/');
-      return { success: true };
+      const { result } = response.data;
+      if (response.data.status === 'success' && result) {
+        localStorage.setItem('user', JSON.stringify(result));
+        setUser(result);
+        navigate('/');
+        return { success: true };
+      } else {
+        const errorMsg = response.data.error || 'Login failed. Please try again.';
+        setError(errorMsg);
+        return { success: false, error: errorMsg };
+      }
     } catch (err) {
-      const errorMsg = err.response?.data?.message || 'Login failed. Please try again.';
+      const errorMsg = err.response?.data?.error || 'Login failed. Please try again.';
       setError(errorMsg);
       return { success: false, error: errorMsg };
     }
@@ -62,14 +66,20 @@ export const AuthProvider = ({ children }) => {
       setError(null);
       const response = await axios.post(`${API_URL}/user/register`, userData);
       
-      // Auto-login after registration
-      const { token, user } = response.data;
-      localStorage.setItem('token', token);
-      setUser(user);
-      navigate('/');
-      return { success: true };
+      const { result } = response.data;
+      if (response.data.status === 'created' && result) {
+        // Auto-login after registration
+        localStorage.setItem('user', JSON.stringify(result));
+        setUser(result);
+        navigate('/');
+        return { success: true };
+      } else {
+        const errorMsg = response.data.error || 'Registration failed. Please try again.';
+        setError(errorMsg);
+        return { success: false, error: errorMsg };
+      }
     } catch (err) {
-      const errorMsg = err.response?.data?.message || 'Registration failed. Please try again.';
+      const errorMsg = err.response?.data?.error || 'Registration failed. Please try again.';
       setError(errorMsg);
       return { success: false, error: errorMsg };
     }
@@ -77,7 +87,7 @@ export const AuthProvider = ({ children }) => {
 
   // Logout function
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setUser(null);
     navigate('/login');
   };
@@ -87,10 +97,11 @@ export const AuthProvider = ({ children }) => {
     return user?.role === 'admin';
   };
 
-  // Get auth header for authenticated requests
+  // Get auth header for authenticated requests (simplified for now)
   const getAuthHeader = () => {
-    const token = localStorage.getItem('token');
-    return token ? { Authorization: `Bearer ${token}` } : {};
+    // For now, return empty object since we're not using JWT
+    // This can be updated later when JWT is implemented
+    return {};
   };
 
   return (
