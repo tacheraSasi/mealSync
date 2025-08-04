@@ -20,7 +20,6 @@ import {
   Mail, 
   Hash,
   Crown,
-  Sparkles,
   TrendingUp
 } from "lucide-react";
 
@@ -89,16 +88,14 @@ const UserTable = () => {
       <div className="container py-8 space-y-8">
         {/* Header Section */}
         <div className="text-center space-y-4">
-          <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/70 backdrop-blur-sm rounded-full border border-emerald-200 shadow-lg">
-            <Users className="h-6 w-6 text-emerald-600" />
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
+          <div className="space-y-2">
+            <h1 className="text-3xl font-bold text-slate-900">
               User Management
             </h1>
-            <Sparkles className="h-5 w-5 text-yellow-500" />
+            <p className="text-slate-600 max-w-2xl mx-auto">
+              Manage and oversee all registered users in the MealSync system
+            </p>
           </div>
-          <p className="text-slate-600 max-w-2xl mx-auto">
-            Manage and oversee all registered users in the MealSync system
-          </p>
         </div>
 
         {/* Stats Cards */}
