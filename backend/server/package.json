@@ -11,7 +11,9 @@
     "start:ts": "ts-node src/server.ts",
     "seed": "ts-node src/seeders/index.ts seed",
     "seed:clear": "ts-node src/seeders/index.ts clear",
-    "seed:refresh": "ts-node src/seeders/index.ts refresh"
+    "seed:refresh": "ts-node src/seeders/index.ts refresh",
+    "sms:test": "ts-node scripts/sms-test.ts test",
+    "sms:send": "ts-node scripts/sms-test.ts send"
   },
   "keywords": [
     "nodejs",
@@ -29,6 +31,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/xlsx": "^0.0.35",
     "amqplib": "^0.10.8",
+    "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",

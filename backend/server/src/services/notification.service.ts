@@ -1,4 +1,5 @@
 import amqp from 'amqplib';
+import { smsService } from './sms.service';
 
 class NotificationService {
   private connection: amqp.Connection | null = null;
@@ -91,6 +92,46 @@ The MealSync Team
     `;
 
     return this.sendEmail(userEmail, subject, body);
+  }
+
+  // SMS Methods
+  async sendWelcomeSms(phoneNumber: string, userName: string): Promise<boolean> {
+    return await smsService.sendWelcomeSms(phoneNumber, userName);
+  }
+
+  async sendMealConfirmationSms(phoneNumber: string, userName: string, mealName: string, date: string): Promise<boolean> {
+    return await smsService.sendMealConfirmationSms(phoneNumber, userName, mealName, date);
+  }
+
+  async sendReminderSms(phoneNumber: string, userName: string): Promise<boolean> {
+    return await smsService.sendReminderSms(phoneNumber, userName);
+  }
+
+  // Combined notification methods (both email and SMS)
+  async sendWelcomeNotifications(userEmail: string, phoneNumber: string, userName: string): Promise<{ email: boolean; sms: boolean }> {
+    const emailResult = await this.sendWelcomeEmail(userEmail, userName);
+    const smsResult = phoneNumber ? await this.sendWelcomeSms(phoneNumber, userName) : true;
+    
+    return {
+      email: emailResult,
+      sms: smsResult
+    };
+  }
+
+  async sendMealConfirmationNotifications(
+    userEmail: string, 
+    phoneNumber: string, 
+    userName: string, 
+    mealName: string, 
+    date: string
+  ): Promise<{ email: boolean; sms: boolean }> {
+    const emailResult = await this.sendMealSelectionConfirmation(userEmail, userName, mealName, date);
+    const smsResult = phoneNumber ? await this.sendMealConfirmationSms(phoneNumber, userName, mealName, date) : true;
+    
+    return {
+      email: emailResult,
+      sms: smsResult
+    };
   }
 
   async close(): Promise<void> {

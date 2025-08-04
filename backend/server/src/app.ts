@@ -5,6 +5,7 @@ import menuRouter from "./routes/menu/menu.routers";
 import lunchChoiceRouter from "./routes/lunchChoice/lunchChoice.routers";
 import mealTemplateRouter from "./routes/mealTemplate/mealTemplate.routers";
 import weeklyMealPlanRouter from "./routes/weeklyMealPlan/weeklyMealPlan.routers";
+import smsRouter from "./routes/sms/sms.routers";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/menu", menuRouter);
 app.use("/lunchChoice", lunchChoiceRouter);
 app.use("/mealTemplate", mealTemplateRouter);
 app.use("/weeklyMealPlan", weeklyMealPlanRouter);
+app.use("/sms", smsRouter);
 
 // Root route
 app.get("/", (_req: Request, res: Response) => {
