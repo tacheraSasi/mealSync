@@ -79,7 +79,7 @@ export async function sendWelcomeSms(phoneNumber: string, userName: string): Pro
   const payload: SmsPayload = {
     message,
     to: [phoneNumber],
-    sender: 'MealSync'
+    sender: '55'
   };
 
   const result = await sendSms(payload);
@@ -100,7 +100,7 @@ export async function sendMealConfirmationSms(phoneNumber: string, userName: str
   const payload: SmsPayload = {
     message,
     to: [phoneNumber],
-    sender: 'MealSync'
+    sender: '55'
   };
 
   const result = await sendSms(payload);
@@ -119,7 +119,7 @@ export async function sendReminderSms(phoneNumber: string, userName: string): Pr
   const payload: SmsPayload = {
     message,
     to: [phoneNumber],
-    sender: 'MealSync'
+    sender: '55'
   };
 
   const result = await sendSms(payload);
@@ -137,7 +137,7 @@ export async function sendBulkSms(phoneNumbers: string[], message: string, sende
   const payload: SmsPayload = {
     message,
     to: phoneNumbers,
-    sender: sender || 'MealSync'
+    sender: sender || '55'
   };
 
   const result = await sendSms(payload);

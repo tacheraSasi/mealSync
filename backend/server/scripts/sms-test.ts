@@ -45,7 +45,7 @@ async function sendCustomSms(phoneNumber: string, message: string) {
     const response = await axios.post(`${API_BASE_URL}/sms/send`, {
       message,
       to: phoneNumber,
-      sender: 'MealSync'
+      sender: '55'
     });
 
     if (response.data.status === 'success') {

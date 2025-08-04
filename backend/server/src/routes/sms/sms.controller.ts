@@ -18,7 +18,7 @@ export async function sendSms(req: Request, res: Response): Promise<Response> {
     const payload = {
       message,
       to: recipients,
-      sender: sender || 'MealSync'
+      sender: sender || '55'
     };
 
     const result = await smsService.sendSms(payload);
@@ -156,7 +156,7 @@ export async function sendTestSms(_req: Request, res: Response): Promise<Respons
     const payload = {
       message: testMessage,
       to: [testPhoneNumber],
-      sender: 'MealSync'
+      sender: '55'
     };
 
     const result = await smsService.sendSms(payload);

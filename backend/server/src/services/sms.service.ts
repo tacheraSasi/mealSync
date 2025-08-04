@@ -74,7 +74,7 @@ class SmsService {
     const payload: SmsPayload = {
       message,
       to: [phoneNumber],
-      sender: 'MealSync'
+      sender: '55'
     };
 
     const result = await this.sendSms(payload);
@@ -87,7 +87,7 @@ class SmsService {
     const payload: SmsPayload = {
       message,
       to: [phoneNumber],
-      sender: 'MealSync'
+      sender: '55'
     };
 
     const result = await this.sendSms(payload);
@@ -100,7 +100,7 @@ class SmsService {
     const payload: SmsPayload = {
       message,
       to: [phoneNumber],
-      sender: 'MealSync'
+      sender: '55'
     };
 
     const result = await this.sendSms(payload);
