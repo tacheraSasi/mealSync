@@ -3,25 +3,25 @@ import amqp from 'amqplib';
 class NotificationService {
   private connection: amqp.Connection | null = null;
   private channel: amqp.Channel | null = null;
-  private rabbitmqUrl: string;
+//   private rabbitmqUrl: string;
 
-  constructor() {
-    this.rabbitmqUrl = process.env.RABBITMQ_URL || 'amqp://localhost:5672';
-  }
+//   constructor() {
+//     this.rabbitmqUrl = process.env.RABBITMQ_URL || 'amqp://localhost:5672';
+//   }
 
   async connect(): Promise<void> {
-    try {
-      this.connection = await amqp.connect(this.rabbitmqUrl);
-      this.channel = await this.connection.createChannel();
+    // try {
+    //   this.connection = await amqp.connect(this.rabbitmqUrl);
+    //   this.channel = await this.connection.createChannel();
       
-      // Declare the email queue
-      await this.channel.assertQueue('email_queue', { durable: true });
+    //   // Declare the email queue
+    //   await this.channel.assertQueue('email_queue', { durable: true });
       
-      console.log('Connected to RabbitMQ for notifications');
-    } catch (error) {
-      console.error('Failed to connect to RabbitMQ:', error);
-      // Don't throw error, let the app continue without notifications
-    }
+    //   console.log('Connected to RabbitMQ for notifications');
+    // } catch (error) {
+    //   console.error('Failed to connect to RabbitMQ:', error);
+    //   // Don't throw error, let the app continue without notifications
+    // }
   }
 
   async sendEmail(to: string, subject: string, body: string): Promise<boolean> {
@@ -99,7 +99,7 @@ The MealSync Team
         await this.channel.close();
       }
       if (this.connection) {
-        await this.connection.close();
+        // await this.connection.close();
       }
     } catch (error) {
       console.error('Error closing RabbitMQ connection:', error);

@@ -1,15 +1,23 @@
 import { AppDataSource } from "../utils/data-source";
 import { MealTemplate } from "../entities/MealTemplate";
+import { Repository } from "typeorm";
 
-export async function seedMealTemplates() {
-  const mealTemplateRepository = AppDataSource.getRepository(MealTemplate);
+export class MealTemplateSeeder {
+  private mealTemplateRepository: Repository<MealTemplate>;
 
-  // Check if meal templates already exist
-  const count = await mealTemplateRepository.count();
-  if (count > 0) {
-    console.log("Meal templates already exist, skipping seeding");
-    return;
+  constructor() {
+    this.mealTemplateRepository = AppDataSource.getRepository(MealTemplate);
   }
+
+  async seed(): Promise<MealTemplate[]> {
+    console.log("🌱 Seeding meal templates...");
+
+    // Check if meal templates already exist
+    const count = await this.mealTemplateRepository.count();
+    if (count > 0) {
+      console.log("⚠️  Meal templates already exist, skipping seeding");
+      return await this.mealTemplateRepository.find();
+    }
 
   const mealTemplates = [
     // Main Course - Tanzanian
@@ -173,11 +181,19 @@ export async function seedMealTemplates() {
   ];
 
   try {
-    const createdTemplates = mealTemplateRepository.create(mealTemplates);
-    await mealTemplateRepository.save(createdTemplates);
-    console.log("Meal templates seeded successfully");
+    const createdTemplates = this.mealTemplateRepository.create(mealTemplates);
+    const savedTemplates = await this.mealTemplateRepository.save(createdTemplates);
+    console.log(`✅ Meal templates seeded successfully! Created ${savedTemplates.length} templates.`);
+    return savedTemplates;
   } catch (error) {
-    console.error("Error seeding meal templates:", error);
+    console.error("❌ Error seeding meal templates:", error);
     throw error;
+  }
+}
+
+  async clear(): Promise<void> {
+    const mealTemplateRepository = AppDataSource.getRepository(MealTemplate);
+    await mealTemplateRepository.clear();
+    console.log("✅ Meal templates cleared successfully");
   }
 }

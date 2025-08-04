@@ -132,8 +132,8 @@ export class MenuSeeder {
   }
 
   async clear(): Promise<void> {
-    console.log("🧹 Clearing menus...");
-    await this.menuRepository.clear();
-    console.log("✅ Menus cleared!");
+    const menuRepository = AppDataSource.getRepository(Menu);
+    await menuRepository.clear();
+    console.log("✅ Menus cleared successfully");
   }
 }

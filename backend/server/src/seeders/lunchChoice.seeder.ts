@@ -133,8 +133,8 @@ export class LunchChoiceSeeder {
   }
 
   async clear(): Promise<void> {
-    console.log("🧹 Clearing lunch choices...");
-    await this.lunchChoiceRepository.clear();
-    console.log("✅ Lunch choices cleared!");
+    const lunchChoiceRepository = AppDataSource.getRepository(LunchChoice);
+    await lunchChoiceRepository.clear();
+    console.log("✅ Lunch choices cleared successfully");
   }
 }

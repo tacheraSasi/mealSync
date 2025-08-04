@@ -98,9 +98,9 @@ export class UserSeeder {
     return createdUsers;
   }
 
-  async clear(): Promise<void> {
-    console.log("🧹 Clearing users...");
-    await this.userRepository.clear();
-    console.log("✅ Users cleared!");
+    async clear(): Promise<void> {
+    const userRepository = AppDataSource.getRepository(User);
+    await userRepository.clear();
+    console.log("✅ Users cleared successfully");
   }
 }

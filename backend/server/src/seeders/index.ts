@@ -3,18 +3,20 @@ import { AppDataSource } from "../utils/data-source";
 import { UserSeeder } from "./user.seeder";
 import { MenuSeeder } from "./menu.seeder";
 import { LunchChoiceSeeder } from "./lunchChoice.seeder";
-import { seedMealTemplates } from "./mealTemplate.seeder";
+import { MealTemplateSeeder } from "./mealTemplate.seeder";
 import { seedWeeklyMealPlans } from "./weeklyMealPlan.seeder";
 
 export class DatabaseSeeder {
   private userSeeder: UserSeeder;
   private menuSeeder: MenuSeeder;
   private lunchChoiceSeeder: LunchChoiceSeeder;
+  private mealTemplateSeeder: MealTemplateSeeder;
 
   constructor() {
     this.userSeeder = new UserSeeder();
     this.menuSeeder = new MenuSeeder();
     this.lunchChoiceSeeder = new LunchChoiceSeeder();
+    this.mealTemplateSeeder = new MealTemplateSeeder();
   }
 
   async seed(): Promise<void> {
@@ -32,7 +34,7 @@ export class DatabaseSeeder {
       await this.lunchChoiceSeeder.seed();
       console.log("");
 
-      await seedMealTemplates();
+      await this.mealTemplateSeeder.seed();
       console.log("");
 
       await seedWeeklyMealPlans();
@@ -53,9 +55,10 @@ export class DatabaseSeeder {
 
     try {
       // Clear in reverse order of dependencies
-      await this.lunchChoiceSeeder.clear();
-      await this.menuSeeder.clear();
       await this.userSeeder.clear();
+      await this.menuSeeder.clear();
+      await this.lunchChoiceSeeder.clear();
+      await this.mealTemplateSeeder.clear();
 
       console.log("=====================================");
       console.log("✅ Database cleanup completed!");
