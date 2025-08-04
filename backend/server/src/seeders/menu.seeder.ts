@@ -21,15 +21,15 @@ export class MenuSeeder {
     const menus = [
       // Yesterday's menu
       {
-        menuname: "Chicken Teriyaki Bowl",
-        description: "Grilled chicken with teriyaki sauce, steamed rice, and vegetables",
+        menuname: "Ugali na Nyama",
+        description: "Traditional  cornmeal staple served with tender beef stew and vegetables",
         menudate: format(yesterday, "d-MMM-yyyy"),
         createdby: "admin",
         isactive: false,
       },
       {
-        menuname: "Vegetarian Pizza",
-        description: "Fresh vegetables, mozzarella cheese, and tomato sauce on thin crust",
+        menuname: "Pilau ya Kuku",
+        description: "Aromatic spiced rice with chicken, cardamom, cinnamon, and cloves",
         menudate: format(yesterday, "d-MMM-yyyy"),
         createdby: "chef_maria",
         isactive: false,
@@ -37,22 +37,22 @@ export class MenuSeeder {
       
       // Today's menu (active)
       {
-        menuname: "Beef Tacos",
-        description: "Seasoned ground beef with lettuce, tomatoes, cheese, and sour cream",
+        menuname: "Wali wa Nazi na Samaki",
+        description: "Coconut rice served with grilled tilapia fish and sukuma wiki (collard greens)",
         menudate: format(today, "d-MMM-yyyy"),
         createdby: "admin",
         isactive: true,
       },
       {
-        menuname: "Caesar Salad",
-        description: "Fresh romaine lettuce, croutons, parmesan cheese, and caesar dressing",
+        menuname: "Mchuzi wa Kuku",
+        description: " chicken curry with coconut milk, tomatoes, and spices served with rice",
         menudate: format(today, "d-MMM-yyyy"),
         createdby: "chef_maria",
         isactive: true,
       },
       {
-        menuname: "Grilled Salmon",
-        description: "Atlantic salmon with lemon herbs, quinoa, and roasted vegetables",
+        menuname: "Ndizi na Nyama",
+        description: "Green bananas cooked with beef in rich tomato and onion sauce",
         menudate: format(today, "d-MMM-yyyy"),
         createdby: "admin",
         isactive: true,
@@ -60,22 +60,22 @@ export class MenuSeeder {
       
       // Tomorrow's menu
       {
-        menuname: "Pasta Carbonara",
-        description: "Creamy pasta with bacon, eggs, parmesan cheese, and black pepper",
+        menuname: "Mishkaki na Chapati",
+        description: "Grilled marinated beef skewers with  flatbread and salad",
         menudate: format(tomorrow, "d-MMM-yyyy"),
         createdby: "chef_maria",
         isactive: false,
       },
       {
-        menuname: "Thai Green Curry",
-        description: "Spicy green curry with chicken, vegetables, and jasmine rice",
+        menuname: "Maharage ya Nazi",
+        description: "Red kidney beans cooked in coconut milk with spices, served with rice",
         menudate: format(tomorrow, "d-MMM-yyyy"),
         createdby: "admin",
         isactive: false,
       },
       {
-        menuname: "Mediterranean Wrap",
-        description: "Hummus, grilled vegetables, feta cheese, and olives in a tortilla wrap",
+        menuname: "Samosa na Chai",
+        description: "Crispy triangular pastries filled with spiced meat or vegetables with  tea",
         menudate: format(tomorrow, "d-MMM-yyyy"),
         createdby: "chef_maria",
         isactive: false,
@@ -83,22 +83,22 @@ export class MenuSeeder {
       
       // Day after tomorrow
       {
-        menuname: "BBQ Pulled Pork",
-        description: "Slow-cooked pulled pork with coleslaw and sweet potato fries",
+        menuname: "Nyama Choma na Ugali",
+        description: "Traditional  grilled meat with ugali and kachumbari salad",
         menudate: format(dayAfterTomorrow, "d-MMM-yyyy"),
         createdby: "admin",
         isactive: false,
       },
       {
-        menuname: "Quinoa Buddha Bowl",
-        description: "Quinoa with roasted vegetables, chickpeas, avocado, and tahini dressing",
+        menuname: "Mchicha na Dagaa",
+        description: "Spinach cooked with small dried fish (dagaa) and coconut milk",
         menudate: format(dayAfterTomorrow, "d-MMM-yyyy"),
         createdby: "chef_maria",
         isactive: false,
       },
       {
-        menuname: "Fish and Chips",
-        description: "Beer-battered cod with crispy fries and mushy peas",
+        menuname: "Makande",
+        description: "Traditional dish of maize and beans cooked together with coconut milk",
         menudate: format(dayAfterTomorrow, "d-MMM-yyyy"),
         createdby: "admin",
         isactive: false,

@@ -12,130 +12,160 @@ export async function seedMealTemplates() {
   }
 
   const mealTemplates = [
-    // Main Course
+    // Main Course - Tanzanian
     {
-      name: "Grilled Chicken Breast",
-      description: "Tender grilled chicken breast with herbs and spices",
+      name: "Ugali na Nyama",
+      description: "Traditional cornmeal staple served with beef or chicken stew",
       category: "Main Course",
       createdBy: "Admin",
       isActive: true,
     },
     {
-      name: "Beef Stir Fry",
-      description: "Savory beef stir fry with mixed vegetables",
+      name: "Pilau",
+      description: "Spiced rice dish with meat, flavored with cardamom, cinnamon, and cloves",
       category: "Main Course",
       createdBy: "Admin",
       isActive: true,
     },
     {
-      name: "Salmon Teriyaki",
-      description: "Fresh salmon glazed with teriyaki sauce",
+      name: "Wali wa Nazi",
+      description: "Coconut rice - fragrant rice cooked in coconut milk",
       category: "Main Course",
       createdBy: "Admin",
       isActive: true,
     },
     {
-      name: "Vegetarian Pasta",
-      description: "Creamy pasta with seasonal vegetables",
+      name: "Nyama Choma",
+      description: "Grilled meat (beef, goat, or chicken) served with ugali",
       category: "Main Course",
       createdBy: "Admin",
       isActive: true,
     },
     {
-      name: "Turkey Sandwich",
-      description: "Sliced turkey with fresh vegetables on whole grain bread",
+      name: "Mishkaki",
+      description: "Marinated beef skewers grilled to perfection",
+      category: "Main Course",
+      createdBy: "Admin",
+      isActive: true,
+    },
+    {
+      name: "Mchuzi wa Kuku",
+      description: "Tanzanian chicken curry with coconut milk and spices",
       category: "Main Course",
       createdBy: "Admin",
       isActive: true,
     },
 
-    // Soup
+    // Soup - Tanzanian
     {
-      name: "Tomato Basil Soup",
-      description: "Classic tomato soup with fresh basil",
+      name: "Supu ya Kuku",
+      description: "Traditional Tanzanian chicken soup with vegetables",
       category: "Soup",
       createdBy: "Admin",
       isActive: true,
     },
     {
-      name: "Chicken Noodle Soup",
-      description: "Hearty chicken soup with noodles and vegetables",
+      name: "Supu ya Nyama",
+      description: "Hearty beef soup with local spices",
       category: "Soup",
       createdBy: "Admin",
       isActive: true,
     },
     {
-      name: "Mushroom Bisque",
-      description: "Creamy mushroom soup with herbs",
+      name: "Supu ya Mboga",
+      description: "Vegetable soup with local greens and herbs",
       category: "Soup",
       createdBy: "Admin",
       isActive: true,
     },
 
-    // Salad
+    // Salad/Vegetables - Tanzanian
     {
-      name: "Caesar Salad",
-      description: "Fresh romaine lettuce with Caesar dressing and croutons",
+      name: "Kachumbari",
+      description: "Fresh tomato and onion salad with lime and chili",
       category: "Salad",
       createdBy: "Admin",
       isActive: true,
     },
     {
-      name: "Greek Salad",
-      description: "Mixed greens with feta cheese, olives, and Greek dressing",
+      name: "Sukuma Wiki",
+      description: "Sautéed collard greens with onions and tomatoes",
       category: "Salad",
       createdBy: "Admin",
       isActive: true,
     },
     {
-      name: "Asian Chicken Salad",
-      description: "Mixed greens with grilled chicken and Asian dressing",
+      name: "Mchicha",
+      description: "Spinach cooked with groundnut sauce or coconut milk",
       category: "Salad",
       createdBy: "Admin",
       isActive: true,
     },
 
-    // Dessert
+    // Snacks/Light Meals - Tanzanian
     {
-      name: "Chocolate Cake",
-      description: "Rich chocolate cake with chocolate frosting",
+      name: "Samosa",
+      description: "Crispy triangular pastries filled with spiced meat or vegetables",
+      category: "Snack",
+      createdBy: "Admin",
+      isActive: true,
+    },
+    {
+      name: "Chapati",
+      description: "Soft flatbread perfect for scooping up stews",
+      category: "Snack",
+      createdBy: "Admin",
+      isActive: true,
+    },
+    {
+      name: "Ndizi Kaanga",
+      description: "Fried green bananas, a popular Tanzanian side dish",
+      category: "Snack",
+      createdBy: "Admin",
+      isActive: true,
+    },
+
+    // Dessert - Tanzanian
+    {
+      name: "Kashata",
+      description: "Sweet coconut candy made with coconut and sugar",
       category: "Dessert",
       createdBy: "Admin",
       isActive: true,
     },
     {
-      name: "Fresh Fruit Bowl",
-      description: "Seasonal fresh fruits",
+      name: "Kaimati",
+      description: "Sweet fried doughnuts served with sugar syrup",
       category: "Dessert",
       createdBy: "Admin",
       isActive: true,
     },
     {
-      name: "Tiramisu",
-      description: "Classic Italian dessert with coffee and mascarpone",
+      name: "Tropical Fruit Salad",
+      description: "Fresh mangoes, pineapples, and bananas",
       category: "Dessert",
       createdBy: "Admin",
       isActive: true,
     },
 
-    // Beverage
+    // Beverage - Tanzanian
     {
-      name: "Fresh Orange Juice",
-      description: "Freshly squeezed orange juice",
+      name: "Chai ya Tangawizi",
+      description: "Spiced ginger tea with milk and cardamom",
       category: "Beverage",
       createdBy: "Admin",
       isActive: true,
     },
     {
-      name: "Green Tea",
-      description: "Premium green tea",
+      name: "Kahawa",
+      description: "Traditional Tanzanian coffee",
       category: "Beverage",
       createdBy: "Admin",
       isActive: true,
     },
     {
-      name: "Coffee",
-      description: "Freshly brewed coffee",
+      name: "Passion Fruit Juice",
+      description: "Fresh passion fruit juice",
       category: "Beverage",
       createdBy: "Admin",
       isActive: true,
