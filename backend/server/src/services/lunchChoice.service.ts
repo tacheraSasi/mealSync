@@ -2,9 +2,10 @@ import { AppDataSource } from "../utils/data-source";
 import { LunchChoice } from "../entities/LunchChoice";
 import { User } from "../entities/User";
 import { Menu } from "../entities/Menu";
-import { isAfter, parseISO } from "date-fns";
+import { isAfter, parseISO, format } from "date-fns";
 import ExcelJS from "exceljs";
 import { Repository } from "typeorm/repository/Repository";
+import { notificationService } from "./notification.service";
 
 // Cache repository instances for better performance
 let cachedLunchChoiceRepository: Repository<LunchChoice> | null = null;
@@ -123,6 +124,14 @@ async function lunchChoiceCreate(
 
     await lunchChoiceRepository().save(newLunchChoice);
 
+    // Send confirmation email (non-blocking)
+    notificationService.sendMealSelectionConfirmation(
+      user.email,
+      user.username,
+      menu.menuname,
+      format(parseISO(menu.menudate), 'PPP')
+    ).catch(error => console.error('Failed to send confirmation email:', error));
+
     return { status: "created", result: newLunchChoice };
   } catch (err: any) {
     return { status: "creation failed", error: err.message };
@@ -180,6 +189,15 @@ async function addLunchChoice(
       existingChoice.menuname = choice.menuname;
       const updatedChoice = await lunchChoiceRepository().save(existingChoice);
       await queryRunner.commitTransaction();
+      
+      // Send confirmation email (non-blocking)
+      notificationService.sendMealSelectionConfirmation(
+        user.email,
+        user.username,
+        choice.menuname,
+        format(parseISO(menu.menudate), 'PPP')
+      ).catch(error => console.error('Failed to send confirmation email:', error));
+      
       return { 
         status: "success", 
         result: updatedChoice,
@@ -196,6 +214,15 @@ async function addLunchChoice(
 
       const savedChoice = await lunchChoiceRepository().save(newChoice);
       await queryRunner.commitTransaction();
+      
+      // Send confirmation email (non-blocking)
+      notificationService.sendMealSelectionConfirmation(
+        user.email,
+        user.username,
+        choice.menuname,
+        format(parseISO(menu.menudate), 'PPP')
+      ).catch(error => console.error('Failed to send confirmation email:', error));
+      
       return { 
         status: "success", 
         result: savedChoice,

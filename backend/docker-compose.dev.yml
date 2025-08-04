@@ -1,27 +1,29 @@
 version: '3.8'
 
 services:
-  # Main API Service (Node.js + TypeORM)
+  # Main API Service (Node.js + TypeORM) - Development mode
   api:
     build:
       context: ./server
       dockerfile: Dockerfile
-    container_name: mealsync-api
+      target: development
+    container_name: mealsync-api-dev
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - DB_HOST=postgres
       - DB_PORT=5432
-      - DB_USERNAME=${DB_USERNAME:-postgres}
-      - DB_PASSWORD=${DB_PASSWORD:-postgres}
-      - DB_NAME=${DB_NAME:-mealsync_db}
-      - JWT_SECRET=${JWT_SECRET:-default_jwt_secret_change_in_production}
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=mealsync_db
+      - JWT_SECRET=development_jwt_secret_change_in_production
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
-      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:5173}
+      - FRONTEND_URL=http://localhost:5173
     ports:
       - "3001:3001"
+    volumes:
+      - ./server/src:/app/src
+      - ./server/package.json:/app/package.json
     depends_on:
       postgres:
         condition: service_healthy
@@ -30,22 +32,20 @@ services:
     networks:
       - mealsync-network
 
-  # Notification Service (Go)
+  # Notification Service (Go) - Development mode
   notification-service:
     build:
       context: ./notification-service
       dockerfile: Dockerfile
-    container_name: mealsync-notification
+    container_name: mealsync-notification-dev
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
-      - SMTP_HOST=${SMTP_HOST:-smtp.gmail.com}
-      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=587
       - SMTP_USER=${SMTP_USER}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
-      - SMTP_FROM=${SMTP_FROM:-noreply@mealsync.com}
+      - SMTP_FROM=noreply@mealsync.com
       - SMS_APIKEY=${SMS_APIKEY}
       - EMAIL_APIKEY=${EMAIL_APIKEY}
     depends_on:
@@ -57,18 +57,19 @@ services:
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
-    container_name: mealsync-db
+    container_name: mealsync-db-dev
     restart: unless-stopped
     environment:
-      - POSTGRES_USER=${DB_USERNAME:-postgres}
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-postgres}
-      - POSTGRES_DB=${DB_NAME:-mealsync_db}
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=mealsync_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_NAME:-mealsync_db}"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d mealsync_db"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -78,11 +79,11 @@ services:
   # RabbitMQ for inter-service communication
   rabbitmq:
     image: rabbitmq:3.12-management
-    container_name: mealsync-rabbitmq
+    container_name: mealsync-rabbitmq-dev
     restart: unless-stopped
     environment:
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER:-guest}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS:-guest}
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
     ports:
       - "5672:5672"
       - "15672:15672"  # Management UI
@@ -92,7 +93,7 @@ services:
       test: ["CMD", "rabbitmq-diagnostics", "check_running"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
     networks:
       - mealsync-network
 

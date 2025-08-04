@@ -24,4 +24,13 @@ app.get("/", (_req: Request, res: Response) => {
   res.send("office lunch menu management server");
 });
 
+// Health check endpoint
+app.get("/health", (_req: Request, res: Response) => {
+  res.status(200).json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    service: "mealsync-api"
+  });
+});
+
 export default app;

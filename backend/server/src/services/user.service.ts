@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { Repository } from "typeorm";
 import { AppDataSource } from "../utils/data-source";
 import { User } from "../entities/User";
+import { notificationService } from "./notification.service";
 
 // Cache repository instance for better performance
 let cachedUserRepository: Repository<User> | null = null;
@@ -151,6 +152,10 @@ async function createUser({
     });
 
     await userRepository().save(newUser);
+
+    // Send welcome email (non-blocking)
+    notificationService.sendWelcomeEmail(newUser.email, newUser.username)
+      .catch(error => console.error('Failed to send welcome email:', error));
 
     return {
       status: "created",

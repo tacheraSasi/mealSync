@@ -44,6 +44,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.10.7",
     "@types/bcryptjs": "^3.0.0",
     "@types/cors": "^2.8.19",
     "@types/node": "^24.1.0",
