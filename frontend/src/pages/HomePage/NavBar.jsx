@@ -25,7 +25,7 @@ const NavBar = ({ setActive }) => {
   };
   
   return (
-    <nav className="bg-neutral-900 py-4 border-b m-4 rounded-full border-neutral-800">
+    <nav className="bg-neutral-900 py-4 border-b m-4 rounded-md border-neutral-800">
       <div className="container flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center gap-2">
