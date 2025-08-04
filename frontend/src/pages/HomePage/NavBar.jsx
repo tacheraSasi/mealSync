@@ -25,7 +25,7 @@ const NavBar = ({ setActive }) => {
   };
   
   return (
-    <nav className="bg-slate-900 py-4 border-b border-slate-800">
+    <nav className="bg-neutral-900 py-4 border-b m-4 rounded-full border-neutral-800">
       <div className="container flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center gap-2">
@@ -39,7 +39,7 @@ const NavBar = ({ setActive }) => {
             <Button 
               onClick={() => setActive({ menu: false, user: true, choice: false, weeklyPlans: false })}
               variant="ghost"
-              className="text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
+              className="text-neutral-300 hover:text-white hover:bg-neutral-800 flex items-center gap-2"
             >
               <Users size={18} /> Users
             </Button>
@@ -47,7 +47,7 @@ const NavBar = ({ setActive }) => {
           <Button 
             onClick={() => setActive({ menu: true, user: false, choice: false, weeklyPlans: false })}
             variant="ghost"
-            className="text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
+            className="text-neutral-300 hover:text-white hover:bg-neutral-800 flex items-center gap-2"
           >
             <Utensils size={18} /> Menus
           </Button>
@@ -56,14 +56,14 @@ const NavBar = ({ setActive }) => {
               <Button 
                 onClick={() => setActive({ menu: false, user: false, choice: true, weeklyPlans: false })}
                 variant="ghost"
-                className="text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
+                className="text-neutral-300 hover:text-white hover:bg-neutral-800 flex items-center gap-2"
               >
                 <ClipboardList size={18} /> Choices
               </Button>
               <Button 
                 onClick={() => setActive({ menu: false, user: false, choice: false, weeklyPlans: true })}
                 variant="ghost"
-                className="text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
+                className="text-neutral-300 hover:text-white hover:bg-neutral-800 flex items-center gap-2"
               >
                 <Calendar size={18} /> Weekly Plans
               </Button>
@@ -75,14 +75,14 @@ const NavBar = ({ setActive }) => {
         <div className="md:hidden">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-slate-300 hover:bg-slate-800">
+              <Button variant="ghost" size="icon" className="text-neutral-300 hover:bg-neutral-800">
                 <Menu className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 bg-slate-800 border-slate-700 text-slate-200">
+            <DropdownMenuContent className="w-56 bg-neutral-800 border-neutral-700 text-neutral-200">
               <DropdownMenuItem 
                 onClick={() => setActive({ menu: true, user: false, choice: false, weeklyPlans: false })}
-                className="flex items-center gap-2 hover:bg-slate-700 cursor-pointer"
+                className="flex items-center gap-2 hover:bg-neutral-700 cursor-pointer"
               >
                 <Utensils size={16} /> Menus
               </DropdownMenuItem>
@@ -90,19 +90,19 @@ const NavBar = ({ setActive }) => {
                 <>
                   <DropdownMenuItem 
                     onClick={() => setActive({ menu: false, user: true, choice: false, weeklyPlans: false })}
-                    className="flex items-center gap-2 hover:bg-slate-700 cursor-pointer"
+                    className="flex items-center gap-2 hover:bg-neutral-700 cursor-pointer"
                   >
                     <Users size={16} /> Users
                   </DropdownMenuItem>
                   <DropdownMenuItem 
                     onClick={() => setActive({ menu: false, user: false, choice: true, weeklyPlans: false })}
-                    className="flex items-center gap-2 hover:bg-slate-700 cursor-pointer"
+                    className="flex items-center gap-2 hover:bg-neutral-700 cursor-pointer"
                   >
                     <ClipboardList size={16} /> Choices
                   </DropdownMenuItem>
                   <DropdownMenuItem 
                     onClick={() => setActive({ menu: false, user: false, choice: false, weeklyPlans: true })}
-                    className="flex items-center gap-2 hover:bg-slate-700 cursor-pointer"
+                    className="flex items-center gap-2 hover:bg-neutral-700 cursor-pointer"
                   >
                     <Calendar size={16} /> Weekly Plans
                   </DropdownMenuItem>
@@ -114,19 +114,19 @@ const NavBar = ({ setActive }) => {
         
         {/* User Dropdown */}
         <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-2 text-slate-200 hover:text-white transition-colors">
+          <DropdownMenuTrigger className="flex items-center gap-2 text-neutral-200 hover:text-white transition-colors">
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-full bg-slate-700 flex items-center justify-center">
-                <User className="h-4 w-4 text-slate-300" />
+              <div className="h-8 w-8 rounded-full bg-neutral-700 flex items-center justify-center">
+                <User className="h-4 w-4 text-neutral-300" />
               </div>
               <span className="hidden md:inline font-medium">{user?.username}</span>
               <ChevronDown className="h-4 w-4 hidden md:inline" />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 bg-slate-800 border-slate-700 text-slate-200">
+          <DropdownMenuContent className="w-56 bg-neutral-800 border-neutral-700 text-neutral-200">
             <DropdownMenuItem 
               onClick={handleLogout}
-              className="flex items-center gap-2 text-red-400 hover:bg-slate-700 cursor-pointer"
+              className="flex items-center gap-2 text-red-400 hover:bg-neutral-700 cursor-pointer"
             >
               <LogOut size={16} /> Logout
             </DropdownMenuItem>
