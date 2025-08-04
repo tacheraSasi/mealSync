@@ -69,7 +69,7 @@ const getNextWeekStartDate = (): string => {
 const isTodayFriday = (): boolean => {
   // return isFriday(new Date());
   return true
-};
+}; 
 
 interface WeeklyMealSelectionInput {
   userId: number;
