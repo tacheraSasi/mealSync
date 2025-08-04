@@ -17,6 +17,7 @@ import { fetchLunchData } from "@/hooks/fetchLunchData";
 import UpdateButton from "./UpdateButton";
 import AddMenuButton from "./AddMenuButton";
 import { Skeleton } from "@/components/ui/skeleton";
+import WeeklyPlanningCard from "@/components/weekly/WeeklyPlanningCard";
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
@@ -223,6 +224,9 @@ const MenuTable = () => {
 
   return (
     <div className="container py-8">
+      {/* Weekly Planning Card */}
+      <WeeklyPlanningCard />
+      
       {/* Active Menus Section */}
       {activeMenus.length > 0 && (
         <div className="mb-12">

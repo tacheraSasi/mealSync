@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FiHome, FiUsers, FiCalendar, FiMenu, FiLogOut, FiUser, FiSettings } from 'react-icons/fi';
 import { useAuth } from '../hooks/useAuth';
 
@@ -11,7 +11,7 @@ const MainLayout = () => {
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: FiHome, current: true },
-    { name: 'Weekly Plan', href: '/weekly-plan', icon: FiCalendar, current: false },
+    { name: 'Weekly Plan', href: '/weekly-planning', icon: FiCalendar, current: false },
   ];
 
   const adminNavigation = [

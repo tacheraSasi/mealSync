@@ -2,6 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import HomePage from "./pages/HomePage/HomePage";
+import WeeklyPlanningPage from "./pages/WeeklyPlanningPage/WeeklyPlanningPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
@@ -24,6 +25,14 @@ function App() {
           element={
             <ProtectedRoute>
               <HomePage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/weekly-planning" 
+          element={
+            <ProtectedRoute>
+              <WeeklyPlanningPage />
             </ProtectedRoute>
           } 
         />
