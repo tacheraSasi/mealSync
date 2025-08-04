@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { format, startOfWeek, addDays, isSameDay, parseISO } from "date-fns";
+import { useEffect, useState, useCallback, useMemo } from "react";
+import { format, addDays, parseISO } from "date-fns";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -74,35 +74,52 @@ const LunchChoiceTable = () => {
   };
 
   // Filter lunch data for the selected week
-  const weeklyChoices = useMemo(() => {
-    if (!lunchData.length) return [];
+  // const weeklyChoices = useMemo(() => {
+  //   if (!lunchData.length) return [];
     
-    const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
-    const weekEnd = addDays(weekStart, 6);
+  //   const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
+  //   const weekEnd = addDays(weekStart, 6);
     
-    return lunchData.filter(choice => {
-      try {
-        const choiceDate = parseISO(choice.menudate);
-        return choiceDate >= weekStart && choiceDate <= weekEnd;
-      } catch (e) {
-        return false;
-      }
-    });
-  }, [lunchData, selectedDate]);
+  //   return lunchData.filter(choice => {
+  //     try {
+  //       const choiceDate = parseISO(choice.menudate);
+  //       return choiceDate >= weekStart && choiceDate <= weekEnd;
+  //     } catch (e) {
+  //       return false;
+  //     }
+  //   });
+  // }, [lunchData, selectedDate]);
+
+  // Helper function to parse the date format from backend (e.g., "2-Aug-2025")
+  const parseMenuDate = (dateStr) => {
+    try {
+      // Convert "2-Aug-2025" to "2025-08-02"
+      const [day, month, year] = dateStr.split('-');
+      const monthNames = {
+        'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
+        'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
+        'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+      };
+      const monthNum = monthNames[month];
+      const dayPadded = day.padStart(2, '0');
+      return `${year}-${monthNum}-${dayPadded}`;
+    } catch (e) {
+      console.error('Error parsing date:', dateStr, e);
+      return null;
+    }
+  };
 
   // Group choices by date for the calendar
   const calendarEvents = useMemo(() => {
     const eventsMap = new Map();
     
     lunchData.forEach(choice => {
-      try {
-        const date = format(parseISO(choice.menudate), 'yyyy-MM-dd');
-        if (!eventsMap.has(date)) {
-          eventsMap.set(date, []);
+      const parsedDate = parseMenuDate(choice.menudate);
+      if (parsedDate) {
+        if (!eventsMap.has(parsedDate)) {
+          eventsMap.set(parsedDate, []);
         }
-        eventsMap.get(date).push(choice);
-      } catch (e) {
-        console.error('Error parsing date:', choice.menudate, e);
+        eventsMap.get(parsedDate).push(choice);
       }
     });
     
@@ -131,7 +148,9 @@ const LunchChoiceTable = () => {
     
     // Convert to Excel format
     const data = Object.entries(dataByDate).map(([date, choices]) => {
-      const row = { Date: format(parseISO(date), 'PP') };
+      const parsedDate = parseMenuDate(date);
+      const formattedDate = parsedDate ? format(parseISO(parsedDate), 'PP') : date;
+      const row = { Date: formattedDate };
       users.forEach(user => {
         row[user] = choices[user] || '-';
       });
@@ -287,7 +306,7 @@ const LunchChoiceTable = () => {
               {lunchData.filter(c => c.userid === user?.id).length}
             </div>
             <div className="text-sm text-slate-500 mt-1">
-              Meals you've selected
+              Meals you&apos;ve selected
             </div>
           </CardContent>
         </Card>

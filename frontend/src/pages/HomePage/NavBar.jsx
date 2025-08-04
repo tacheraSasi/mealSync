@@ -13,7 +13,8 @@ import {
   Menu, 
   User, 
   LogOut,
-  ChevronDown
+  ChevronDown,
+  Calendar
 } from "lucide-react";
 
 const NavBar = ({ setActive }) => {
@@ -36,7 +37,7 @@ const NavBar = ({ setActive }) => {
         <div className="hidden md:flex gap-6">
           {user?.role === "admin" && (
             <Button 
-              onClick={() => setActive({ menu: false, user: true, choice: false })}
+              onClick={() => setActive({ menu: false, user: true, choice: false, weeklyPlans: false })}
               variant="ghost"
               className="text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
             >
@@ -44,20 +45,29 @@ const NavBar = ({ setActive }) => {
             </Button>
           )}
           <Button 
-            onClick={() => setActive({ menu: true, user: false, choice: false })}
+            onClick={() => setActive({ menu: true, user: false, choice: false, weeklyPlans: false })}
             variant="ghost"
             className="text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
           >
             <Utensils size={18} /> Menus
           </Button>
           {user?.role === "admin" && (
-            <Button 
-              onClick={() => setActive({ menu: false, user: false, choice: true })}
-              variant="ghost"
-              className="text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
-            >
-              <ClipboardList size={18} /> Choices
-            </Button>
+            <>
+              <Button 
+                onClick={() => setActive({ menu: false, user: false, choice: true, weeklyPlans: false })}
+                variant="ghost"
+                className="text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
+              >
+                <ClipboardList size={18} /> Choices
+              </Button>
+              <Button 
+                onClick={() => setActive({ menu: false, user: false, choice: false, weeklyPlans: true })}
+                variant="ghost"
+                className="text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
+              >
+                <Calendar size={18} /> Weekly Plans
+              </Button>
+            </>
           )}
         </div>
         
@@ -71,7 +81,7 @@ const NavBar = ({ setActive }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 bg-slate-800 border-slate-700 text-slate-200">
               <DropdownMenuItem 
-                onClick={() => setActive({ menu: true, user: false, choice: false })}
+                onClick={() => setActive({ menu: true, user: false, choice: false, weeklyPlans: false })}
                 className="flex items-center gap-2 hover:bg-slate-700 cursor-pointer"
               >
                 <Utensils size={16} /> Menus
@@ -79,16 +89,22 @@ const NavBar = ({ setActive }) => {
               {user?.role === "admin" && (
                 <>
                   <DropdownMenuItem 
-                    onClick={() => setActive({ menu: false, user: true, choice: false })}
+                    onClick={() => setActive({ menu: false, user: true, choice: false, weeklyPlans: false })}
                     className="flex items-center gap-2 hover:bg-slate-700 cursor-pointer"
                   >
                     <Users size={16} /> Users
                   </DropdownMenuItem>
                   <DropdownMenuItem 
-                    onClick={() => setActive({ menu: false, user: false, choice: true })}
+                    onClick={() => setActive({ menu: false, user: false, choice: true, weeklyPlans: false })}
                     className="flex items-center gap-2 hover:bg-slate-700 cursor-pointer"
                   >
                     <ClipboardList size={16} /> Choices
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => setActive({ menu: false, user: false, choice: false, weeklyPlans: true })}
+                    className="flex items-center gap-2 hover:bg-slate-700 cursor-pointer"
+                  >
+                    <Calendar size={16} /> Weekly Plans
                   </DropdownMenuItem>
                 </>
               )}

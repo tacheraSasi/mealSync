@@ -60,11 +60,13 @@ const UpdateButton = ({item}) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Badge
-          className="cursor-pointer bg-blue-500 hover:bg-blue-600"
-        >
-          update
-        </Badge>
+        <button className="p-0 border-0 bg-transparent">
+          <Badge
+            className="cursor-pointer bg-blue-500 hover:bg-blue-600"
+          >
+            update
+          </Badge>
+        </button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

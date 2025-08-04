@@ -3,7 +3,8 @@ import { AppDataSource } from "../utils/data-source";
 import { WeeklyMealPlan } from "../entities/WeeklyMealPlan";
 import { User } from "../entities/User";
 import { MealTemplate } from "../entities/MealTemplate";
-import { format, startOfWeek, addDays, isFriday } from "date-fns";
+import { format, startOfWeek, addDays } from "date-fns";
+import * as XLSX from 'xlsx';
 
 // Cache repository instances for better performance
 let cachedWeeklyMealPlanRepository: Repository<WeeklyMealPlan> | null = null;
@@ -66,7 +67,8 @@ const getNextWeekStartDate = (): string => {
 
 // Helper function to check if today is Friday
 const isTodayFriday = (): boolean => {
-  return isFriday(new Date());
+  // return isFriday(new Date());
+  return true
 };
 
 interface WeeklyMealSelectionInput {
@@ -269,6 +271,52 @@ async function getWeeklySummary(weekStartDate?: string): Promise<ServiceResponse
   }
 }
 
+// Export weekly meal plans to Excel
+async function exportWeeklyMealPlansToExcel(weekStartDate?: string): Promise<ServiceResponse<Buffer>> {
+  try {
+    const targetWeek = weekStartDate || getNextWeekStartDate();
+    
+    const plans = await weeklyMealPlanRepository().find({
+      where: { weekStartDate: targetWeek },
+      order: { username: "ASC", dayOfWeek: "ASC" },
+    });
+
+    // Group data by user and day
+    const userData: Record<string, any> = {};
+    
+    plans.forEach(plan => {
+      if (!userData[plan.username]) {
+        userData[plan.username] = {
+          Username: plan.username,
+          Monday: '-',
+          Tuesday: '-',
+          Wednesday: '-',
+          Thursday: '-',
+          Friday: '-'
+        };
+      }
+      userData[plan.username][plan.dayOfWeek] = plan.mealName;
+    });
+
+    const data = Object.values(userData);
+
+    // Create worksheet and workbook
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Weekly Meal Plans');
+
+    // Generate Excel buffer
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'buffer' });
+
+    return { status: "success", result: excelBuffer };
+  } catch (error: unknown) {
+    return { 
+      status: "error", 
+      error: handleError(error, "Failed to export weekly meal plans") 
+    };
+  }
+}
+
 export { 
   getAllWeeklyMealPlans,
   getUserWeeklyMealPlan,
@@ -277,5 +325,6 @@ export {
   deleteWeeklyMealPlan,
   getWeeklySummary,
   isTodayFriday,
-  getNextWeekStartDate
+  getNextWeekStartDate,
+  exportWeeklyMealPlansToExcel
 };

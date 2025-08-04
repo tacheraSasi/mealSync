@@ -8,6 +8,7 @@ import {
   getWeeklySummary,
   isTodayFriday,
   getNextWeekStartDate,
+  exportWeeklyMealPlansToExcel,
 } from "../../services/weeklyMealPlan.service";
 
 export async function getAllWeeklyMealPlansController(
@@ -141,5 +142,28 @@ export async function getWeeklyPlanningInfoController(
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
     return res.status(400).json({ error: message });
+  }
+}
+
+export async function exportWeeklyMealPlansController(
+  req: Request,
+  res: Response
+): Promise<Response> {
+  try {
+    const weekStartDate = req.query.weekStartDate as string;
+    const result = await exportWeeklyMealPlansToExcel(weekStartDate);
+    
+    if (result.status === "success" && result.result) {
+      // Set headers for file download
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename="weekly-meal-plans-${new Date().toISOString().split('T')[0]}.xlsx"`);
+      
+      return res.send(result.result);
+    } else {
+      return res.status(400).json({ error: result.error || "Failed to generate export" });
+    }
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    return res.status(500).json({ error: message });
   }
 }

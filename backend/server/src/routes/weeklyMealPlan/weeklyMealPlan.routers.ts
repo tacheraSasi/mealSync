@@ -7,6 +7,7 @@ import {
   deleteWeeklyMealPlanController,
   getWeeklySummaryController,
   getWeeklyPlanningInfoController,
+  exportWeeklyMealPlansController,
 } from "./weeklyMealPlan.controller";
 
 const weeklyMealPlanRouter = Router();
@@ -19,6 +20,9 @@ weeklyMealPlanRouter.get("/", getAllWeeklyMealPlansController);
 
 // Get weekly summary for admin
 weeklyMealPlanRouter.get("/summary", getWeeklySummaryController);
+
+// Export weekly meal plans to Excel
+weeklyMealPlanRouter.get("/export", exportWeeklyMealPlansController);
 
 // Get user's weekly meal plan
 weeklyMealPlanRouter.get("/user/:userId", getUserWeeklyMealPlanController);

@@ -141,11 +141,7 @@ export async function deleteMealSelection(req: Request, res: Response): Promise<
 
 export async function getMealSelection(req: Request, res: Response): Promise<Response> {
   try {
-    const choiceId = parseInt(req.params.choiceId, 10);
-    
-    if (isNaN(choiceId)) {
-      return res.status(400).json({ status: 'error', error: 'Invalid choice ID' });
-    }
+    const choiceId = (req as any).choiceId;
     
     const result = await getLunchChoiceById(choiceId);
     
@@ -153,21 +149,47 @@ export async function getMealSelection(req: Request, res: Response): Promise<Res
       return res.status(404).json(result);
     }
     
-    // Verify the user owns this choice (unless admin)
-    const user = (req as any).user;
-    const isAdmin = user?.role === 'admin';
-    
-    if (user.id !== result.result?.userid && !isAdmin) {
-      return res.status(403).json({ 
-        status: 'error', 
-        error: 'You can only view your own meal selections' 
-      });
-    }
-    
-    return res.status(200).json(result);
+    return res.status(200).json({
+      status: 'success',
+      data: result.result
+    });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Failed to get meal selection';
     console.error('Error getting meal selection:', error);
+    return res.status(500).json({ status: 'error', error: message });
+  }
+}
+
+// Simple add controller for frontend compatibility
+export async function addLunchChoiceController(req: Request, res: Response): Promise<Response> {
+  try {
+    const { userid, menuid } = req.body;
+    
+    if (!userid || !menuid) {
+      return res.status(400).json({ status: 'error', error: 'User ID and Menu ID are required' });
+    }
+    
+    if (isNaN(parseInt(userid, 10)) || isNaN(parseInt(menuid, 10))) {
+      return res.status(400).json({ status: 'error', error: 'Invalid user ID or menu ID' });
+    }
+    
+    const choice: any = {
+      userid: parseInt(userid, 10),
+      username: req.body.username || `user_${userid}`,
+      menuid: parseInt(menuid, 10),
+      menuname: req.body.menuname || ''
+    };
+    
+    const result = await addLunchChoice(choice);
+    
+    if (result.status === 'error') {
+      return res.status(400).json(result);
+    }
+    
+    return res.status(201).json(result);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to add lunch choice';
+    console.error('Error adding lunch choice:', error);
     return res.status(500).json({ status: 'error', error: message });
   }
 }
