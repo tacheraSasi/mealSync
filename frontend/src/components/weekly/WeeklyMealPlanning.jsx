@@ -4,10 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Calendar, Clock, CheckCircle2, AlertCircle, Utensils } from 'lucide-react';
+import { Calendar, Clock, CheckCircle2, AlertCircle, Utensils, Leaf, User } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import MealTemplateSelector from './MealTemplateSelector';
 import WeeklyPlanSummary from './WeeklyPlanSummary';
+import MealCard from './MealCard';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
@@ -15,6 +16,7 @@ const WeeklyMealPlanning = () => {
   const { user } = useAuth();
   const [planningInfo, setPlanningInfo] = useState(null);
   const [mealTemplates, setMealTemplates] = useState([]);
+  const [userDietaryPreferences, setUserDietaryPreferences] = useState([]);
   const [weeklySelections, setWeeklySelections] = useState({
     monday: null,
     tuesday: null,
@@ -62,6 +64,23 @@ const WeeklyMealPlanning = () => {
     }
   };
 
+  // Fetch user dietary preferences
+  const fetchUserDietaryPreferences = async () => {
+    if (!user?.id) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/dietaryPreference/user/${user.id}`);
+      const result = await response.json();
+      
+      if (result.status === 'success') {
+        setUserDietaryPreferences(result.result);
+      }
+    } catch (error) {
+      console.error('Error fetching dietary preferences:', error);
+      // Don't set error for dietary preferences as it's not critical
+    }
+  };
+
   // Fetch existing weekly plan for the user
   const fetchExistingPlan = useCallback(async () => {
     if (!user?.id || !planningInfo?.nextWeekStartDate) return;
@@ -91,7 +110,8 @@ const WeeklyMealPlanning = () => {
       setIsLoading(true);
       await Promise.all([
         fetchPlanningInfo(),
-        fetchMealTemplates()
+        fetchMealTemplates(),
+        fetchUserDietaryPreferences()
       ]);
       setIsLoading(false);
     };
@@ -248,12 +268,12 @@ const WeeklyMealPlanning = () => {
                   Select Your Meals
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-8">
                 {daysOfWeek.map(day => (
-                  <div key={day} className="border-b border-slate-100 last:border-b-0 pb-6 last:pb-0">
-                    <div className="flex items-center justify-between mb-4">
+                  <div key={day} className="border-b border-slate-100 last:border-b-0 pb-8 last:pb-0">
+                    <div className="flex items-center justify-between mb-6">
                       <div>
-                        <h3 className="font-semibold text-slate-900 capitalize">{day}</h3>
+                        <h3 className="font-semibold text-slate-900 capitalize text-lg">{day}</h3>
                         {weekDates[day] && (
                           <p className="text-sm text-slate-500">
                             {format(weekDates[day], 'MMMM d, yyyy')}
@@ -262,17 +282,30 @@ const WeeklyMealPlanning = () => {
                       </div>
                       {weeklySelections[day] && (
                         <Badge variant="outline" className="text-emerald-700 border-emerald-200">
-                          Selected
+                          ✓ Selected
                         </Badge>
                       )}
                     </div>
                     
-                    <MealTemplateSelector
-                      mealTemplates={mealTemplates}
-                      selectedMealId={weeklySelections[day]}
-                      onMealSelect={(mealId) => handleMealSelection(day, mealId)}
-                      day={day}
-                    />
+                    {/* Enhanced Meal Selection Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {mealTemplates.map(meal => (
+                        <MealCard
+                          key={meal.id}
+                          meal={meal}
+                          isSelected={weeklySelections[day] === meal.id}
+                          onSelect={() => handleMealSelection(day, meal.id)}
+                          userDietaryPreferences={userDietaryPreferences}
+                        />
+                      ))}
+                    </div>
+                    
+                    {mealTemplates.length === 0 && (
+                      <div className="text-center py-8 text-slate-500">
+                        <Utensils className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                        <p>No meal options available for selection</p>
+                      </div>
+                    )}
                   </div>
                 ))}
               </CardContent>
@@ -302,7 +335,36 @@ const WeeklyMealPlanning = () => {
           </div>
 
           {/* Summary Section */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 space-y-6">
+            {/* Dietary Preferences Panel */}
+            {userDietaryPreferences.length > 0 && (
+              <Card className="border-emerald-100">
+                <CardHeader className="bg-emerald-50">
+                  <CardTitle className="flex items-center gap-2 text-emerald-800">
+                    <Leaf className="h-5 w-5" />
+                    Your Dietary Preferences
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-4">
+                  <div className="space-y-2">
+                    {userDietaryPreferences.map((preference) => (
+                      <div key={preference.id} className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                        <span className="text-sm text-slate-700 capitalize">
+                          {preference.preference.replace('-', ' ')}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 p-3 bg-blue-50 rounded-md">
+                    <p className="text-xs text-blue-800">
+                      💡 Meals are highlighted based on your preferences and potential allergen conflicts are marked.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             <WeeklyPlanSummary
               weeklySelections={weeklySelections}
               mealTemplates={mealTemplates}

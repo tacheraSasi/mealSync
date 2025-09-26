@@ -6,6 +6,10 @@ import { LunchChoice } from "../entities/LunchChoice";
 import { Menu } from "../entities/Menu";
 import { MealTemplate } from "../entities/MealTemplate";
 import { WeeklyMealPlan } from "../entities/WeeklyMealPlan";
+import { Department } from "../entities/Department";
+import { DietaryPreference } from "../entities/DietaryPreference";
+import { MealRating } from "../entities/MealRating";
+import { MealSchedule } from "../entities/MealSchedule";
 
 config(); // Load env first
 
@@ -15,5 +19,15 @@ export const AppDataSource = new DataSource({
   url: DATABASE_URL,
   synchronize: true,
   logging: false,
-  entities: [User, LunchChoice, Menu, MealTemplate, WeeklyMealPlan],
+  entities: [
+    User, 
+    LunchChoice, 
+    Menu, 
+    MealTemplate, 
+    WeeklyMealPlan, 
+    Department, 
+    DietaryPreference, 
+    MealRating, 
+    MealSchedule
+  ],
 });
