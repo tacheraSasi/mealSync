@@ -6,10 +6,12 @@ import UserTable from "./UserTable";
 import AdminWeeklyPlanView from "./AdminWeeklyPlanView";
 import DepartmentTable from "./DepartmentTable";
 import DietaryPreferencesTable from "./DietaryPreferencesTable";
+import DashboardOverview from "../../components/dashboard/DashboardOverview";
 
 const HomePage = () => {
   const [active, setActive] = useState({
-    menu: true,
+    dashboard: true,
+    menu: false,
     user: false,
     choice: false,
     weeklyPlans: false,
@@ -19,6 +21,7 @@ const HomePage = () => {
   return (
     <div>
       <NavBar setActive={setActive} />
+      {active.dashboard && <DashboardOverview setActive={setActive} />}
       {active.menu && <MenuTable />}
       {active.user && <UserTable />}
       {active.choice && <LunchChoiceTable />}

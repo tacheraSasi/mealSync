@@ -16,7 +16,8 @@ import {
   ChevronDown,
   Calendar,
   Building2,
-  Leaf
+  Leaf,
+  BarChart3
 } from "lucide-react";
 
 const NavBar = ({ setActive }) => {
@@ -27,6 +28,7 @@ const NavBar = ({ setActive }) => {
   };
 
   const resetActive = () => ({
+    dashboard: false,
     menu: false,
     user: false,
     choice: false,
@@ -47,13 +49,22 @@ const NavBar = ({ setActive }) => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex gap-6">
           {user?.role === "admin" && (
-            <Button 
-              onClick={() => setActive({ ...resetActive(), user: true })}
-              variant="ghost"
-              className="text-neutral-300 hover:text-white hover:bg-neutral-800 flex items-center gap-2"
-            >
-              <Users size={18} /> Users
-            </Button>
+            <>
+              <Button 
+                onClick={() => setActive({ ...resetActive(), dashboard: true })}
+                variant="ghost"
+                className="text-neutral-300 hover:text-white hover:bg-neutral-800 flex items-center gap-2"
+              >
+                <BarChart3 size={18} /> Dashboard
+              </Button>
+              <Button 
+                onClick={() => setActive({ ...resetActive(), user: true })}
+                variant="ghost"
+                className="text-neutral-300 hover:text-white hover:bg-neutral-800 flex items-center gap-2"
+              >
+                <Users size={18} /> Users
+              </Button>
+            </>
           )}
           <Button 
             onClick={() => setActive({ ...resetActive(), menu: true })}
@@ -113,6 +124,12 @@ const NavBar = ({ setActive }) => {
               </DropdownMenuItem>
               {user?.role === "admin" && (
                 <>
+                  <DropdownMenuItem 
+                    onClick={() => setActive({ ...resetActive(), dashboard: true })}
+                    className="flex items-center gap-2 hover:bg-neutral-700 cursor-pointer"
+                  >
+                    <BarChart3 size={16} /> Dashboard
+                  </DropdownMenuItem>
                   <DropdownMenuItem 
                     onClick={() => setActive({ ...resetActive(), user: true })}
                     className="flex items-center gap-2 hover:bg-neutral-700 cursor-pointer"
