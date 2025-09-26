@@ -14,7 +14,9 @@ import {
   User, 
   LogOut,
   ChevronDown,
-  Calendar
+  Calendar,
+  Building2,
+  Leaf
 } from "lucide-react";
 
 const NavBar = ({ setActive }) => {
@@ -23,6 +25,15 @@ const NavBar = ({ setActive }) => {
   const handleLogout = () => {
     logout();
   };
+
+  const resetActive = () => ({
+    menu: false,
+    user: false,
+    choice: false,
+    weeklyPlans: false,
+    departments: false,
+    dietaryPreferences: false,
+  });
   
   return (
     <nav className="bg-neutral-900 py-4 border-b m-4 rounded-md border-neutral-800">
@@ -37,7 +48,7 @@ const NavBar = ({ setActive }) => {
         <div className="hidden md:flex gap-6">
           {user?.role === "admin" && (
             <Button 
-              onClick={() => setActive({ menu: false, user: true, choice: false, weeklyPlans: false })}
+              onClick={() => setActive({ ...resetActive(), user: true })}
               variant="ghost"
               className="text-neutral-300 hover:text-white hover:bg-neutral-800 flex items-center gap-2"
             >
@@ -45,7 +56,7 @@ const NavBar = ({ setActive }) => {
             </Button>
           )}
           <Button 
-            onClick={() => setActive({ menu: true, user: false, choice: false, weeklyPlans: false })}
+            onClick={() => setActive({ ...resetActive(), menu: true })}
             variant="ghost"
             className="text-neutral-300 hover:text-white hover:bg-neutral-800 flex items-center gap-2"
           >
@@ -54,18 +65,32 @@ const NavBar = ({ setActive }) => {
           {user?.role === "admin" && (
             <>
               <Button 
-                onClick={() => setActive({ menu: false, user: false, choice: true, weeklyPlans: false })}
+                onClick={() => setActive({ ...resetActive(), choice: true })}
                 variant="ghost"
                 className="text-neutral-300 hover:text-white hover:bg-neutral-800 flex items-center gap-2"
               >
                 <ClipboardList size={18} /> Choices
               </Button>
               <Button 
-                onClick={() => setActive({ menu: false, user: false, choice: false, weeklyPlans: true })}
+                onClick={() => setActive({ ...resetActive(), weeklyPlans: true })}
                 variant="ghost"
                 className="text-neutral-300 hover:text-white hover:bg-neutral-800 flex items-center gap-2"
               >
                 <Calendar size={18} /> Weekly Plans
+              </Button>
+              <Button 
+                onClick={() => setActive({ ...resetActive(), departments: true })}
+                variant="ghost"
+                className="text-neutral-300 hover:text-white hover:bg-neutral-800 flex items-center gap-2"
+              >
+                <Building2 size={18} /> Departments
+              </Button>
+              <Button 
+                onClick={() => setActive({ ...resetActive(), dietaryPreferences: true })}
+                variant="ghost"
+                className="text-neutral-300 hover:text-white hover:bg-neutral-800 flex items-center gap-2"
+              >
+                <Leaf size={18} /> Dietary
               </Button>
             </>
           )}
@@ -81,7 +106,7 @@ const NavBar = ({ setActive }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 bg-neutral-800 border-neutral-700 text-neutral-200">
               <DropdownMenuItem 
-                onClick={() => setActive({ menu: true, user: false, choice: false, weeklyPlans: false })}
+                onClick={() => setActive({ ...resetActive(), menu: true })}
                 className="flex items-center gap-2 hover:bg-neutral-700 cursor-pointer"
               >
                 <Utensils size={16} /> Menus
@@ -89,22 +114,34 @@ const NavBar = ({ setActive }) => {
               {user?.role === "admin" && (
                 <>
                   <DropdownMenuItem 
-                    onClick={() => setActive({ menu: false, user: true, choice: false, weeklyPlans: false })}
+                    onClick={() => setActive({ ...resetActive(), user: true })}
                     className="flex items-center gap-2 hover:bg-neutral-700 cursor-pointer"
                   >
                     <Users size={16} /> Users
                   </DropdownMenuItem>
                   <DropdownMenuItem 
-                    onClick={() => setActive({ menu: false, user: false, choice: true, weeklyPlans: false })}
+                    onClick={() => setActive({ ...resetActive(), choice: true })}
                     className="flex items-center gap-2 hover:bg-neutral-700 cursor-pointer"
                   >
                     <ClipboardList size={16} /> Choices
                   </DropdownMenuItem>
                   <DropdownMenuItem 
-                    onClick={() => setActive({ menu: false, user: false, choice: false, weeklyPlans: true })}
+                    onClick={() => setActive({ ...resetActive(), weeklyPlans: true })}
                     className="flex items-center gap-2 hover:bg-neutral-700 cursor-pointer"
                   >
                     <Calendar size={16} /> Weekly Plans
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => setActive({ ...resetActive(), departments: true })}
+                    className="flex items-center gap-2 hover:bg-neutral-700 cursor-pointer"
+                  >
+                    <Building2 size={16} /> Departments
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => setActive({ ...resetActive(), dietaryPreferences: true })}
+                    className="flex items-center gap-2 hover:bg-neutral-700 cursor-pointer"
+                  >
+                    <Leaf size={16} /> Dietary Preferences
                   </DropdownMenuItem>
                 </>
               )}

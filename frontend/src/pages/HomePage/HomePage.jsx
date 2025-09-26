@@ -4,6 +4,8 @@ import MenuTable from "./MenuTable";
 import NavBar from "./NavBar";
 import UserTable from "./UserTable";
 import AdminWeeklyPlanView from "./AdminWeeklyPlanView";
+import DepartmentTable from "./DepartmentTable";
+import DietaryPreferencesTable from "./DietaryPreferencesTable";
 
 const HomePage = () => {
   const [active, setActive] = useState({
@@ -11,6 +13,8 @@ const HomePage = () => {
     user: false,
     choice: false,
     weeklyPlans: false,
+    departments: false,
+    dietaryPreferences: false,
   });
   return (
     <div>
@@ -19,6 +23,8 @@ const HomePage = () => {
       {active.user && <UserTable />}
       {active.choice && <LunchChoiceTable />}
       {active.weeklyPlans && <AdminWeeklyPlanView />}
+      {active.departments && <DepartmentTable />}
+      {active.dietaryPreferences && <DietaryPreferencesTable />}
     </div>
   );
 };
